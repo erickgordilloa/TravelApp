@@ -13,7 +13,7 @@ export const BaseColor = {
   navyBlue: "#3C5A99",
   kashmir: "#5D6D7E",
   orangeColor: "#E5634D",
-  blueColor: "#5DADE2",
+  blueColor: "#3949ab",
   pinkColor: "#A569BD",
   greenColor: "#58D68D",
   greenColorBoton: "#d1fae4",
@@ -178,7 +178,7 @@ export const DefaultTheme = {
   light: {
     dark: false,
     colors: {
-      primary: "#ff8001",
+      primary: "#3949ab",
       primaryDark: "#C31C0D",
       primaryLight: "#FF8A65",
       accent: "#4A90A4",
@@ -188,6 +188,7 @@ export const DefaultTheme = {
       card: "white",
       text: "#212121",
       border: "#c7c7cc",
+      dark: "#222",
     },
   },
   dark: {

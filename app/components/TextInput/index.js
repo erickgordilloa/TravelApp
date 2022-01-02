@@ -1,10 +1,11 @@
-import React from 'react';
-import {TextInput, View, I18nManager} from 'react-native';
-import PropTypes from 'prop-types';
-import {BaseStyle, BaseColor, useTheme} from '@config';
+import React from "react";
+import { TextInput, View, I18nManager } from "react-native";
+import PropTypes from "prop-types";
+import { BaseStyle, BaseColor, useTheme } from "@config";
+import { Text } from "@components";
 
 export default function Index(props) {
-  const {colors} = useTheme();
+  const { colors } = useTheme();
   const cardColor = colors.card;
   const {
     style,
@@ -19,34 +20,41 @@ export default function Index(props) {
     textAlignVertical,
     icon,
     onSubmitEditing,
+    textLabel,
   } = props;
   return (
-    <View style={[BaseStyle.textInput, {backgroundColor: cardColor}, style]}>
-      <TextInput
-        style={{
-          fontFamily: 'Raleway',
-          flex: 1,
-          height: '100%',
-          textAlign: I18nManager.isRTL ? 'right' : 'left',
-          color: colors.text,
-          paddingTop: 5,
-          paddingBottom: 5,
-        }}
-        onChangeText={text => onChangeText(text)}
-        onFocus={() => onFocus()}
-        autoCorrect={false}
-        placeholder={placeholder}
-        placeholderTextColor={success ? BaseColor.grayColor : colors.primary}
-        secureTextEntry={secureTextEntry}
-        value={value}
-        selectionColor={colors.primary}
-        keyboardType={keyboardType}
-        multiline={multiline}
-        textAlignVertical={textAlignVertical}
-        onSubmitEditing={onSubmitEditing}
-      />
-      {icon}
-    </View>
+    <>
+      {textLabel}
+      <View
+        style={[BaseStyle.textInput, { backgroundColor: "#efefef" }, style]}
+      >
+        <TextInput
+          style={{
+            fontFamily: "Raleway",
+            flex: 1,
+            height: "100%",
+            textAlign: I18nManager.isRTL ? "right" : "left",
+            color: colors.text,
+            paddingTop: 5,
+            paddingBottom: 5,
+          }}
+          onChangeText={(text) => onChangeText(text)}
+          onFocus={() => onFocus()}
+          autoCorrect={false}
+          placeholder={placeholder}
+          placeholderTextColor={success ? BaseColor.grayColor : colors.primary}
+          secureTextEntry={secureTextEntry}
+          value={value}
+          selectionColor={colors.primary}
+          keyboardType={keyboardType}
+          multiline={multiline}
+          textAlignVertical={textAlignVertical}
+          onSubmitEditing={onSubmitEditing}
+          underlineColorAndroid={"red"}
+        />
+        {icon}
+      </View>
+    </>
   );
 }
 
@@ -67,15 +75,16 @@ Index.propTypes = {
 
 Index.defaultProps = {
   style: {},
-  onChangeText: text => {},
+  onChangeText: (text) => {},
   onFocus: () => {},
-  placeholder: 'Placeholder',
-  value: '',
+  placeholder: "Placeholder",
+  value: "",
   success: true,
   secureTextEntry: false,
-  keyboardType: 'default',
+  keyboardType: "default",
   multiline: false,
-  textAlignVertical: 'center',
+  textAlignVertical: "center",
   icon: null,
+  textLabel: null,
   onSubmitEditing: () => {},
 };

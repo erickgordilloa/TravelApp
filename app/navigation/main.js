@@ -20,7 +20,6 @@ import Car from "@screens/Car";
 import OverViewCar from "@screens/OverViewCar";
 import Hotel from "@screens/Hotel";
 
-import Feedback from "@screens/Feedback";
 import Messages from "@screens/Messages";
 
 import ProfileExample from "@screens/ProfileExample";
@@ -79,12 +78,14 @@ import ResetPassword from "@screens/ResetPassword";
 import ChangePassword from "@screens/ChangePassword";
 import ProfileEdit from "@screens/ProfileEdit";
 import Profile from "@screens/Profile";
+import Feedback from "@screens/Feedback";
+import Messenger from "@screens/Messenger";
 /** Huecas Screem**/
 
 /* Bottom Screen */
 import Home from "@screens/Home";
 import Booking from "@screens/Booking";
-import Messenger from "@screens/Messenger";
+
 import Post from "@screens/Post";
 
 const MainStack = createStackNavigator();
@@ -196,7 +197,7 @@ function BottomTabNavigator() {
       initialRouteName="Home"
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: colors.primary,
+        tabBarActiveTintColor: colors.dark,
         inactiveTintColor: BaseColor.grayColor,
         tabBarShowLabel: true,
         tabBarShowIcon: true,
@@ -211,19 +212,9 @@ function BottomTabNavigator() {
         name="Home"
         component={Home}
         options={{
-          title: "Inicio",
+          title: "Home",
           tabBarIcon: ({ color }) => {
-            return <Icon color={color} name="home" size={20} solid />;
-          },
-        }}
-      />
-      <BottomTab.Screen
-        name="Booking"
-        component={Huecas}
-        options={{
-          title: "Huecas",
-          tabBarIcon: ({ color }) => {
-            return <Icon color={color} name="bookmark" size={20} solid />;
+            return <Icon color={color} name="home" size={20} />;
           },
         }}
       />
@@ -231,9 +222,39 @@ function BottomTabNavigator() {
         name="Profile"
         component={login ? Profile : Walkthrough}
         options={{
-          title: "Cuenta",
+          title: "Profile",
           tabBarIcon: ({ color }) => {
             return <Icon solid color={color} name="user-circle" size={20} />;
+          },
+        }}
+      />
+      <BottomTab.Screen
+        name="Booking"
+        component={Huecas}
+        options={{
+          title: "Book",
+          tabBarIcon: ({ color }) => {
+            return <Icon color={color} name="suitcase-rolling" size={20} />;
+          },
+        }}
+      />
+      <BottomTab.Screen
+        name="Messages"
+        component={Messenger}
+        options={{
+          title: "Chat",
+          tabBarIcon: ({ color }) => {
+            return <Icon color={color} name="comment-alt" size={20} />;
+          },
+        }}
+      />
+      <BottomTab.Screen
+        name="Messages1"
+        component={Messenger}
+        options={{
+          title: "Bucket List",
+          tabBarIcon: ({ color }) => {
+            return <Icon color={color} name="heart" size={20} />;
           },
         }}
       />

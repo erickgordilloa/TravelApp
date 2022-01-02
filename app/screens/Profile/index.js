@@ -49,7 +49,7 @@ export default function Profile({ navigation }) {
           <View style={styles.contain}>
             <ProfileDetail
               image={userData.image}
-              textFirst={userInfo?.name}
+              textFirst={userInfo?.username}
               textSecond={userInfo?.email}
               onPress={() => console.log("ir a cambiar la foto")}
             />

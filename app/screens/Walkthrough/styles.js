@@ -8,7 +8,7 @@ export default StyleSheet.create({
   },
   wrapper: {
     width: "100%",
-    height: 450,
+    height: 500,
   },
   contentPage: {
     bottom: 0,
@@ -21,7 +21,7 @@ export default StyleSheet.create({
   img: {
     width: Utils.scaleWithPixel(200),
     height: Utils.scaleWithPixel(200),
-    //borderRadius: Utils.scaleWithPixel(200) / 2,
+    borderRadius: Utils.scaleWithPixel(200) / 2,
   },
   slide: {
     alignItems: "center",
@@ -30,6 +30,10 @@ export default StyleSheet.create({
   },
   textSlide: {
     marginTop: 30,
+    textAlign: "center",
+  },
+  textPrincipal: {
+    marginTop: 10,
     textAlign: "center",
   },
 });

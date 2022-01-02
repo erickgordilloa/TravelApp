@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from "react-native";
 
 /**
  * Common basic style defines
@@ -8,12 +8,13 @@ export const BaseStyle = StyleSheet.create({
     height: 46,
     borderRadius: 5,
     paddingHorizontal: 10,
-    width: '100%',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    flexDirection: 'row',
+    width: "100%",
+    justifyContent: "space-between",
+    alignItems: "center",
+    flexDirection: "row",
   },
   safeAreaView: {
     flex: 1,
+    backgroundColor: "white", //se anadio el color para todo
   },
 });

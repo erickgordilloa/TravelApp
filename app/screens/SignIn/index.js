@@ -29,8 +29,9 @@ export default function SignIn({ navigation }) {
   });
 
   //const [id, setId] = useState("");
-  const [email, setEmail] = useState("cbastidas@links.com.ec");
-  const [password, setPassword] = useState("1234567890");
+  const [email, setEmail] = useState("stefano@gmail.com");
+  const [password, setPassword] = useState("12345678");
+  const [visible, setVisible] = useState(true);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState({ email: true, password: true });
 
@@ -68,7 +69,7 @@ export default function SignIn({ navigation }) {
   return (
     <View style={{ flex: 1 }}>
       <Header
-        title={"Iniciar Sesión"}
+        title={"Sign In to VEBO"}
         renderLeft={() => {
           return (
             <Icon
@@ -104,9 +105,13 @@ export default function SignIn({ navigation }) {
               placeholder={"Email"}
               success={success.email}
               value={email}
+              textLabel={
+                <Text body1 style={{ textAlign: "left", marginBottom: 10 }}>
+                  Email
+                </Text>
+              }
             />
             <TextInput
-              style={{ marginTop: 10 }}
               onChangeText={(text) => setPassword(text)}
               onFocus={() => {
                 setSuccess({
@@ -115,25 +120,59 @@ export default function SignIn({ navigation }) {
                 });
               }}
               placeholder={"Contraseña"}
-              secureTextEntry={true}
+              secureTextEntry={visible}
               success={success.password}
               value={password}
+              textLabel={
+                <Text
+                  body1
+                  style={{ textAlign: "left", marginTop: 10, marginBottom: 10 }}
+                >
+                  Password
+                </Text>
+              }
+              icon={
+                <TouchableOpacity onPress={() => setVisible(!visible)}>
+                  <Icon
+                    name={visible ? "eye-slash" : "eye"}
+                    size={20}
+                    color={colors.primary}
+                    enableRTL={true}
+                  />
+                </TouchableOpacity>
+              }
             />
+            <View style={styles.contentActionBottom}>
+              <TouchableOpacity
+                onPress={() => navigation.navigate("ResetPassword")}
+              >
+                <Text body1 primaryColor>
+                  Forgot Password?
+                </Text>
+              </TouchableOpacity>
+            </View>
             <Button
               style={{ marginTop: 20 }}
               full
+              round
               loading={loading}
               onPress={() => {
                 onLogin();
               }}
             >
-              Iniciar sesión
+              Sign in
             </Button>
-            <TouchableOpacity
-              onPress={() => navigation.navigate("ResetPassword")}
-            >
-              <Text body1 bold primaryColor style={{ marginTop: 25 }}>
-                ¿Olvidaste tu contraseña?
+
+            <TouchableOpacity onPress={() => navigation.navigate("SignUp")}>
+              <Text
+                body1
+                grayColor
+                style={{ marginTop: 25, textAlign: "center" }}
+              >
+                Don't have an account?{" "}
+                <Text body1 primaryColor style={{ marginTop: 25 }}>
+                  Sign up
+                </Text>
               </Text>
             </TouchableOpacity>
           </View>

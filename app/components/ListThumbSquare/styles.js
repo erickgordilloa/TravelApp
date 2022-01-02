@@ -1,5 +1,5 @@
-import {StyleSheet} from 'react-native';
-import {BaseColor} from '@config';
+import { StyleSheet } from "react-native";
+import { BaseColor } from "@config";
 
 export default StyleSheet.create({
   item: {
@@ -9,24 +9,24 @@ export default StyleSheet.create({
     paddingBottom: 5,
   },
   contain: {
-    flexDirection: 'row',
+    flexDirection: "row",
     borderBottomWidth: 1,
     paddingTop: 5,
     paddingBottom: 5,
   },
-  thumb: {width: 48, height: 48, marginRight: 10},
+  thumb: { width: 48, height: 48, marginRight: 10, borderRadius: 25 },
   content: {
     flex: 1,
-    flexDirection: 'row',
+    flexDirection: "row",
   },
   left: {
     flex: 7.5,
-    alignItems: 'flex-start',
-    justifyContent: 'center',
+    alignItems: "flex-start",
+    justifyContent: "center",
   },
   right: {
     flex: 2.5,
-    alignItems: 'flex-end',
-    justifyContent: 'center',
+    alignItems: "flex-end",
+    justifyContent: "center",
   },
 });

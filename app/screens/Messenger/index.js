@@ -1,24 +1,25 @@
-import React, {useState} from 'react';
-import {RefreshControl, FlatList, View} from 'react-native';
-import {BaseStyle, useTheme} from '@config';
-import {Header, SafeAreaView, ListThumbSquare} from '@components';
-import styles from './styles';
-import {MessagesData} from '@data';
-import {useTranslation} from 'react-i18next';
+import React, { useState } from "react";
+import { RefreshControl, FlatList, View } from "react-native";
+import { BaseStyle, useTheme } from "@config";
+import { Header, SafeAreaView, ListThumbSquare } from "@components";
+import styles from "./styles";
+import { MessagesData } from "@data";
+import { useTranslation } from "react-i18next";
 
-export default function Messenger({navigation}) {
-  const {colors} = useTheme();
-  const {t} = useTranslation();
+export default function Messenger({ navigation }) {
+  const { colors } = useTheme();
+  const { t } = useTranslation();
 
   const [refreshing] = useState(false);
   const [messenger] = useState(MessagesData);
 
   return (
-    <View style={{flex: 1}}>
-      <Header title={t('messenger')} />
+    <View style={{ flex: 1 }}>
+      <Header title={"Chat"} />
       <SafeAreaView
         style={BaseStyle.safeAreaView}
-        edges={['right', 'left', 'bottom']}>
+        edges={["right", "left", "bottom"]}
+      >
         <FlatList
           refreshControl={
             <RefreshControl
@@ -30,10 +31,11 @@ export default function Messenger({navigation}) {
           }
           data={messenger}
           keyExtractor={(item, index) => item.id}
-          renderItem={({item, index}) => (
+          renderItem={({ item, index }) => (
             <ListThumbSquare
               onPress={() => {
-                navigation.navigate('Messages');
+                navigation.navigate("Messages");
+                console.log(12);
               }}
               image={item.image}
               txtLeftTitle={item.user}

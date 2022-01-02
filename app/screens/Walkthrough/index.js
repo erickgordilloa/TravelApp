@@ -17,7 +17,6 @@ export default function Walkthrough({ navigation }) {
     { key: 1, image: Images.trip2 },
     { key: 2, image: Images.trip1 },
     { key: 3, image: Images.trip3 },
-    { key: 4, image: Images.trip4 },
   ]);
   const { colors } = useTheme();
   const dispatch = useDispatch();
@@ -45,37 +44,57 @@ export default function Walkthrough({ navigation }) {
         }
       >
         <View style={styles.wrapper}>
-          <View style={styles.slide}>
-            <Image source={Images.LogoColor} style={styles.img} />
-            <Text title1 bold style={styles.textSlide} center>
-              Inicia Sesión{"\n"} para continuar
+          <View style={{ marginTop: 50 }}>
+            <Text title1 style={styles.textPrincipal} bold>
+              VEBO
             </Text>
-            <Text body4 style={styles.textSlide} center>
-              El lugar ideal para descubrir y saborear{"\n"}los platos más ricos
+            <Text body1 style={styles.textPrincipal}>
+              Take your trips on the next level
             </Text>
           </View>
+          {/* Images Swiper */}
+          <Swiper
+            dotStyle={{
+              backgroundColor: BaseColor.dividerColor,
+            }}
+            activeDotColor={colors.primary}
+            paginationStyle={styles.contentPage}
+            removeClippedSubviews={false}
+          >
+            {slide.map((item, index) => {
+              return (
+                <View style={styles.slide} key={item.key}>
+                  <Image source={item.image} style={styles.img} />
+                  <Text body1 style={styles.textSlide} bold>
+                    Save your favorite places and have next trip even better
+                  </Text>
+                </View>
+              );
+            })}
+          </Swiper>
         </View>
         <View style={{ width: "100%" }}>
           <Button
             full
+            round
             style={{ marginTop: 20 }}
             loading={loading}
             onPress={() => navigation.navigate("SignUp")}
           >
-            Crear cuenta
+            Create a new account
           </Button>
           <Button
             full
-            styleText={{ color: "#10b981" }}
+            round
+            outline
+            /* styleText={{ color: "#10b981" }} */
             style={{
               marginTop: 20,
-              backgroundColor: BaseColor.greenColorBoton,
-              color: "green",
             }}
             loading={loading}
             onPress={() => navigation.navigate("SignIn")}
           >
-            Iniciar Sesión
+            Sign In
           </Button>
           {/* <View style={styles.contentActionBottom}>
             <TouchableOpacity onPress={() => navigation.navigate("SignUp")}>

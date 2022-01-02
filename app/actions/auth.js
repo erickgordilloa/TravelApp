@@ -1,7 +1,6 @@
 import * as actionTypes from "./actionTypes";
 import { baseUrl } from "../api/mainApi";
 import axios from "axios";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const onLogin = (data) => {
   return {
@@ -44,7 +43,7 @@ export const login = (email, password, callback) => async (dispatch) => {
       },
     };
     const { data } = await axios.post(
-      `${baseUrl}/auth/login`,
+      `${baseUrl}/login`,
       { email, password },
       config
     );
