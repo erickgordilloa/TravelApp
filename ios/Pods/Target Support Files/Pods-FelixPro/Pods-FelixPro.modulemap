@@ -1,0 +1,6 @@
+module Pods_FelixPro {
+  umbrella header "Pods-FelixPro-umbrella.h"
+
+  export *
+  module * { export * }
+}
