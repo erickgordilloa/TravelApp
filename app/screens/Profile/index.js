@@ -121,11 +121,12 @@ export default function Profile({ navigation }) {
           <Button
             full
             outline
+            round
             loading={loading}
             onPress={() => logOut()}
             style={{ backgroundColor: BaseColor.whiteColor }}
           >
-            {"Cerrar Sesión"}
+            {"Log out"}
           </Button>
         </View>
       </SafeAreaView>

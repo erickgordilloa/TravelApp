@@ -1,7 +1,19 @@
 import React, { useState } from "react";
-import { View, KeyboardAvoidingView, Platform } from "react-native";
+import {
+  View,
+  KeyboardAvoidingView,
+  Platform,
+  TouchableOpacity,
+} from "react-native";
 import { BaseStyle, useTheme } from "@config";
-import { Header, SafeAreaView, Icon, Button, TextInput } from "@components";
+import {
+  Header,
+  SafeAreaView,
+  Icon,
+  Button,
+  TextInput,
+  Text,
+} from "@components";
 import styles from "./styles";
 import { useTranslation } from "react-i18next";
 
@@ -18,6 +30,8 @@ export default function SignUp({ navigation }) {
   const [cellphone, setCellphone] = useState("");
   const [gender, setGender] = useState("");
   const [password, setPassword] = useState("");
+  const [visible, setVisible] = useState(true);
+  const [visiblePassword, setVisiblePassword] = useState(true);
   const [passwordConfirm, setPasswordConfirm] = useState("");
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState({
@@ -56,7 +70,7 @@ export default function SignUp({ navigation }) {
   return (
     <View style={{ flex: 1 }}>
       <Header
-        title={"Crear cuenta"}
+        title={"Creat your account"}
         renderLeft={() => {
           return (
             <Icon
@@ -83,46 +97,94 @@ export default function SignUp({ navigation }) {
           <View style={styles.contain}>
             <TextInput
               onChangeText={(text) => setName(text)}
-              placeholder={"Nombre completo"}
+              placeholder={"Name"}
               success={success.name}
               value={name}
+              textLabel={
+                <Text
+                  body1
+                  style={{ textAlign: "left", marginTop: 10, marginBottom: 10 }}
+                >
+                  Name
+                </Text>
+              }
             />
             <TextInput
-              style={{ marginTop: 10 }}
-              onChangeText={(text) => setCellphone(text)}
-              placeholder={"Número celular"}
-              success={success.cellphone}
-              value={cellphone}
-            />
-            <TextInput
-              style={{ marginTop: 10 }}
+              //style={{ marginTop: 10 }}
               onChangeText={(text) => setEmail(text)}
               placeholder={"Email"}
               keyboardType="email-address"
               success={success.email}
               value={email}
+              textLabel={
+                <Text
+                  body1
+                  style={{ textAlign: "left", marginTop: 10, marginBottom: 10 }}
+                >
+                  Email
+                </Text>
+              }
             />
             <TextInput
-              style={{ marginTop: 10 }}
+              //style={{ marginTop: 10 }}
               onChangeText={(text) => setPassword(text)}
-              placeholder={"Contraseña"}
+              placeholder={"Password"}
               success={success.password}
               value={password}
+              textLabel={
+                <Text
+                  body1
+                  style={{ textAlign: "left", marginTop: 10, marginBottom: 10 }}
+                >
+                  Password
+                </Text>
+              }
+              icon={
+                <TouchableOpacity onPress={() => setVisible(!visible)}>
+                  <Icon
+                    name={visible ? "eye-slash" : "eye"}
+                    size={20}
+                    color={colors.primary}
+                    enableRTL={true}
+                  />
+                </TouchableOpacity>
+              }
             />
             <TextInput
-              style={{ marginTop: 10 }}
+              //style={{ marginTop: 10 }}
               onChangeText={(text) => setPassword(text)}
-              placeholder={"Confirmar contraseña"}
+              placeholder={"Password confirm"}
               success={success.passwordConfirm}
               value={passwordConfirm}
+              textLabel={
+                <Text
+                  body1
+                  style={{ textAlign: "left", marginTop: 10, marginBottom: 10 }}
+                >
+                  Password Confirm
+                </Text>
+              }
+              icon={
+                <TouchableOpacity
+                  onPress={() => setVisiblePassword(!visiblePassword)}
+                >
+                  <Icon
+                    name={visiblePassword ? "eye-slash" : "eye"}
+                    size={20}
+                    color={colors.primary}
+                    enableRTL={true}
+                  />
+                </TouchableOpacity>
+              }
             />
             <Button
               full
+              round
               style={{ marginTop: 20 }}
               loading={loading}
               onPress={() => onSignUp()}
             >
-              Registrarse
+              Create account
             </Button>
           </View>
         </KeyboardAvoidingView>
