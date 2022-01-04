@@ -4,8 +4,8 @@
  */
 
 export const Images = {
-  //logo: require('@assets/images/logo.png'),
-  logo: require("@assets/images/LogoSplah.png"), //
+  logo: require("@assets/images/logo.png"),
+  //logo: require("@assets/images/LogoSplah.png"), //
   homeImage: require("@assets/images/Home.png"), //
   LogoColor: require("@assets/images/LogoHuecasColor.png"), //
 

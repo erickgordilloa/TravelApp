@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+/* import { StyleSheet } from "react-native";
 import * as Utils from "@utils";
 
 export default StyleSheet.create({
@@ -79,5 +79,17 @@ export default StyleSheet.create({
     paddingHorizontal: 20,
     paddingTop: 20,
     paddingBottom: 10,
+  },
+}); */
+
+import { StyleSheet } from "react-native";
+import { BaseColor } from "@config";
+
+export default StyleSheet.create({
+  navbar: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
   },
 });

@@ -7,6 +7,7 @@ import {
   StarRating,
   Tag,
   ProfileDetail,
+  ProfileDetailCard,
   Button,
 } from "@components";
 import { BaseColor, useTheme } from "@config";
@@ -191,43 +192,15 @@ export default function TourItem(props) {
         <TouchableOpacity onPress={onPress} activeOpacity={0.9}>
           <Image source={image} style={styles.girdImage} />
         </TouchableOpacity>
-        <View style={styles.girdContentLocation}>
-          <Icon name="map-marker-alt" color={colors.primary} size={10} />
-          <Text
-            caption2
-            grayColor
-            style={{
-              marginLeft: 3,
-            }}
-          >
-            {location}
-          </Text>
-        </View>
-        <Text
-          body2
-          semibold
-          style={{
-            marginTop: 5,
-          }}
-          numberOfLines={1}
-        >
+        <Text headline semibold>
           {name}
         </Text>
-        <View style={styles.girdContentRate}>
-          <Text caption1 accentColor>
-            {travelTime}
-          </Text>
-        </View>
-        <Text
-          title3
-          primaryColor
-          semibold
-          style={{
-            marginTop: 5,
-          }}
-        >
-          {price}
-        </Text>
+        <ProfileDetailCard
+          image={author.image}
+          textSecond={author.name}
+          icon={false}
+          style={{ marginTop: 10 }}
+        />
       </View>
     );
   };

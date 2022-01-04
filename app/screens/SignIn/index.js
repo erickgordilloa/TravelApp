@@ -119,7 +119,7 @@ export default function SignIn({ navigation }) {
                   password: true,
                 });
               }}
-              placeholder={"Contraseña"}
+              placeholder={"Password"}
               secureTextEntry={visible}
               success={success.password}
               value={password}

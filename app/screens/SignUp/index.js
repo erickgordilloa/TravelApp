@@ -14,33 +14,32 @@ import {
   TextInput,
   Text,
 } from "@components";
+import { AuthActions } from "@actions";
+import { useDispatch, useSelector } from "react-redux";
 import styles from "./styles";
 import { useTranslation } from "react-i18next";
 
 export default function SignUp({ navigation }) {
   const { colors } = useTheme();
   const { t } = useTranslation();
+  const dispatch = useDispatch();
   const offsetKeyboard = Platform.select({
     ios: 0,
     android: 20,
   });
 
-  const [name, setName] = useState("");
+  const [name, setName] = useState("Erick");
   const [email, setEmail] = useState("");
-  const [cellphone, setCellphone] = useState("");
-  const [gender, setGender] = useState("");
-  const [password, setPassword] = useState("");
+  const [password, setPassword] = useState("123");
+  const [passwordConfirm, setPasswordConfirm] = useState("123");
   const [visible, setVisible] = useState(true);
   const [visiblePassword, setVisiblePassword] = useState(true);
-  const [passwordConfirm, setPasswordConfirm] = useState("");
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState({
     name: true,
     email: true,
     password: true,
     passwordConfirm: true,
-    cellphone: true,
-    gender: true,
   });
 
   /**
@@ -52,18 +51,22 @@ export default function SignUp({ navigation }) {
       setSuccess({
         ...success,
         name: name != "" ? true : false,
-        cellphone: cellphone != "" ? true : false,
-        gender: gender != "" ? true : false,
         email: email != "" ? true : false,
         password: password != "" ? true : false,
         passwordConfirm: passwordConfirm != "" ? true : false,
       });
     } else {
       setLoading(true);
-      setTimeout(() => {
+      /* setTimeout(() => {
         setLoading(false);
         navigation.navigate("SignIn");
-      }, 500);
+      }, 500); */
+      dispatch(
+        AuthActions.register(name, email, password, (response) => {
+          setLoading(false);
+          navigation.goBack();
+        })
+      );
     }
   };
 
@@ -110,7 +113,6 @@ export default function SignUp({ navigation }) {
               }
             />
             <TextInput
-              //style={{ marginTop: 10 }}
               onChangeText={(text) => setEmail(text)}
               placeholder={"Email"}
               keyboardType="email-address"
@@ -127,6 +129,7 @@ export default function SignUp({ navigation }) {
             />
             <TextInput
               //style={{ marginTop: 10 }}
+              secureTextEntry={visible}
               onChangeText={(text) => setPassword(text)}
               placeholder={"Password"}
               success={success.password}
@@ -151,8 +154,8 @@ export default function SignUp({ navigation }) {
               }
             />
             <TextInput
-              //style={{ marginTop: 10 }}
-              onChangeText={(text) => setPassword(text)}
+              secureTextEntry={visiblePassword}
+              onChangeText={(text) => setPasswordConfirm(text)}
               placeholder={"Password confirm"}
               success={success.passwordConfirm}
               value={passwordConfirm}

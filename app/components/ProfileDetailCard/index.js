@@ -5,7 +5,7 @@ import styles from "./styles";
 import PropTypes from "prop-types";
 import { BaseColor, useTheme } from "@config";
 
-export default function ProfileDetail(props) {
+export default function ProfileDetailCard(props) {
   const { colors } = useTheme();
   const {
     style,
@@ -22,7 +22,7 @@ export default function ProfileDetail(props) {
   } = props;
   return (
     <TouchableOpacity
-      style={[styles.contain, style]}
+      style={[styles.contain, style, { marginTop: 0 }]}
       onPress={onPress}
       activeOpacity={0.9}
     >
@@ -43,11 +43,12 @@ export default function ProfileDetail(props) {
           />
         </View>
         <View style={{ alignItems: "flex-start" }}>
-          <Text headline semibold numberOfLines={1}>
+          <Text footnote semibold numberOfLines={1}>
             {textFirst}
           </Text>
           <Text
-            body2
+            footnote
+            semibold
             style={{
               marginTop: 3,
               paddingRight: 10,
@@ -64,7 +65,7 @@ export default function ProfileDetail(props) {
       {icon && (
         <View style={[styles.contentRight, styleRight]}>
           <Icon
-            name="pencil-alt"
+            name="angle-right"
             size={18}
             color={BaseColor.grayColor}
             enableRTL={true}
@@ -75,7 +76,7 @@ export default function ProfileDetail(props) {
   );
 }
 
-ProfileDetail.propTypes = {
+ProfileDetailCard.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   image: PropTypes.node.isRequired,
   textFirst: PropTypes.string,
@@ -89,7 +90,7 @@ ProfileDetail.propTypes = {
   onPress: PropTypes.func,
 };
 
-ProfileDetail.defaultProps = {
+ProfileDetailCard.defaultProps = {
   image: "",
   textFirst: "",
   textSecond: "",

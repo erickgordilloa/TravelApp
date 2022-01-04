@@ -2,20 +2,17 @@ import * as actionTypes from "./actionTypes";
 import { baseUrl } from "../api/mainApi";
 import axios from "axios";
 
-const onLogin = (data) => {
+const onLogin = (data, type) => {
   return {
-    type: actionTypes.LOGIN_SUCCESS,
+    type,
     payload: data,
   };
 };
 
-export const authentication = (data, callback) => (dispatch) => {
+export const authentication = (data, type, callback) => (dispatch) => {
   //call api and dispatch action case
   setTimeout(() => {
-    /* let data = {
-      success: login,
-    }; */
-    dispatch(onLogin(data));
+    dispatch(onLogin(data, type));
     if (typeof callback === "function") {
       callback({ success: true });
     }
@@ -47,11 +44,8 @@ export const login = (email, password, callback) => async (dispatch) => {
       { email, password },
       config
     );
-    dispatch(authentication(data, callback));
+    dispatch(authentication(data, actionTypes.LOGIN_SUCCESS, callback));
     console.log(data);
-    //localStorage.setItem("userInfo", JSON.stringify(data));
-    //await AsyncStorage.setItem("token", data.access_token);
-    //await AsyncStorage.setItem("userInfo", data.user);
   } catch (error) {
     //dispatch(authentication(false, callback));
     console.log(error);
@@ -64,3 +58,28 @@ export const login = (email, password, callback) => async (dispatch) => {
     }); */
   }
 };
+
+export const register =
+  (name, email, password, callback) => async (dispatch) => {
+    try {
+      dispatch({
+        type: actionTypes.REGISTER_REQUEST,
+      });
+
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+      const { data } = await axios.post(
+        `${baseUrl}/register`,
+        { name, email, password },
+        config
+      );
+      dispatch(authentication(data, actionTypes.REGISTER_SUCCESS, callback));
+      console.log(data);
+    } catch (error) {
+      //dispatch(authentication(false, callback));
+      console.log(error);
+    }
+  };

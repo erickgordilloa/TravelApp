@@ -210,6 +210,15 @@ export default function HotelItem(props) {
           <Image source={image} style={styles.girdImage} />
         </TouchableOpacity>
         <View style={styles.girdContentLocation}>
+          <ProfileDetail
+            image={author.image}
+            textFirst={name}
+            textSecond={author.name}
+            point={author.point}
+            icon={false}
+            style={{ marginTop: 10 }}
+            onPress={onPressUser}
+          />
           <Icon name="map-marker-alt" color={colors.primary} size={10} />
           <Text
             caption2
