@@ -49,13 +49,13 @@ export const login = (email, password, callback) => async (dispatch) => {
   } catch (error) {
     //dispatch(authentication(false, callback));
     console.log(error);
-    /* dispatch({
+    dispatch({
       type: actionTypes.LOGIN_ERROR,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message
           : error.message,
-    }); */
+    });
   }
 };
 

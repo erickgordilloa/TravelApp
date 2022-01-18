@@ -1,15 +1,15 @@
 import React, { useState } from "react";
-import {
-  FlatList,
-  RefreshControl,
-  View,
-  Animated,
-  TouchableOpacity,
-} from "react-native";
+import { RefreshControl, View, Animated, TouchableOpacity } from "react-native";
 import { BaseStyle, useTheme, BaseColor } from "@config";
-import { Header, SafeAreaView, Icon, TourItem, TextInput } from "@components";
+import {
+  Header,
+  SafeAreaView,
+  Icon,
+  TourItem,
+  TextInput,
+  Text,
+} from "@components";
 import styles from "./styles";
-import * as Utils from "@utils";
 import { TourData } from "@data";
 import { useTranslation } from "react-i18next";
 
@@ -33,7 +33,6 @@ export default function Home({ navigation }) {
   const { colors } = useTheme();
 
   const [refreshing] = useState(false);
-  const [modeView, setModeView] = useState("grid");
   const [tours] = useState(TourData);
 
   const renderContent = () => {
@@ -140,29 +139,7 @@ export default function Home({ navigation }) {
 
   return (
     <View style={{ flex: 1 }}>
-      <Header
-        title={"Home"}
-        //subTitle="24 Dec 2018, 2 Nights, 1 Room"
-        /* renderLeft={() => {
-          return (
-            <Icon
-              name="arrow-left"
-              size={20}
-              color={colors.primary}
-              enableRTL={true}
-            />
-          );
-        }} */
-        /* renderRight={() => {
-          return <Icon name="search" size={20} color={colors.primary} />;
-        }}
-        onPressLeft={() => {
-          navigation.goBack();
-        }}
-        onPressRight={() => {
-          navigation.navigate("SearchHistory");
-        }} */
-      />
+      <Header title={"Home"} />
       <SafeAreaView
         style={BaseStyle.safeAreaView}
         edges={["right", "left", "bottom"]}

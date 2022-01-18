@@ -505,7 +505,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.huynh.felixpro;
+				PRODUCT_BUNDLE_IDENTIFIER = com.travel.album.app;
 				PRODUCT_NAME = FelixPro;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -530,7 +530,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.huynh.felixpro;
+				PRODUCT_BUNDLE_IDENTIFIER = com.travel.album.app;
 				PRODUCT_NAME = FelixPro;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

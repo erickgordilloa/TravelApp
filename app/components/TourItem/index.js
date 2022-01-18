@@ -119,14 +119,6 @@ export default function TourItem(props) {
             padding: 10,
             margin: 15,
             borderRadius: 15,
-            /*  shadowColor: "#000",
-            shadowOffset: {
-              width: 0,
-              height: 2,
-            },
-            shadowOpacity: 0.23,
-            shadowRadius: 2.62,
-            elevation: 3, */
           },
           style,
         ]}
@@ -190,7 +182,7 @@ export default function TourItem(props) {
     return (
       <View style={[styles.girdContent, style]}>
         <TouchableOpacity onPress={onPress} activeOpacity={0.9}>
-          <Image source={image} style={styles.girdImage} />
+          <Image source={image} style={[styles.girdImage]} />
         </TouchableOpacity>
         <Text headline semibold>
           {name}
