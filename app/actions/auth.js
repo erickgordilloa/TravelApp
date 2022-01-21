@@ -2,21 +2,17 @@ import * as actionTypes from "./actionTypes";
 import { baseUrl } from "../api/mainApi";
 import axios from "axios";
 
-const onLogin = (data, type) => {
+const onLogin = (data) => {
   return {
-    type,
+    type: actionTypes.LOGIN_SUCCESS,
     payload: data,
   };
 };
 
-export const authentication = (data, type, callback) => (dispatch) => {
-  //call api and dispatch action case
-  setTimeout(() => {
-    dispatch(onLogin(data, type));
-    if (typeof callback === "function") {
-      callback({ success: true });
-    }
-  }, 500);
+export const onRemoveError = () => {
+  return {
+    type: actionTypes.LOGIN_RESET,
+  };
 };
 
 export const onLogOut = () => (dispatch) => {
@@ -28,7 +24,7 @@ export const onLogOut = () => (dispatch) => {
   }, 500);
 };
 
-export const login = (email, password, callback) => async (dispatch) => {
+export const login = (email, password) => async (dispatch) => {
   try {
     dispatch({
       type: actionTypes.LOGIN_REQUEST,
@@ -44,10 +40,8 @@ export const login = (email, password, callback) => async (dispatch) => {
       { email, password },
       config
     );
-    dispatch(authentication(data, actionTypes.LOGIN_SUCCESS, callback));
-    console.log(data);
+    dispatch(onLogin(data));
   } catch (error) {
-    //dispatch(authentication(false, callback));
     console.log(error);
     dispatch({
       type: actionTypes.LOGIN_ERROR,

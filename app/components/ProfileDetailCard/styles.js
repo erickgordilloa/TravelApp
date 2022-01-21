@@ -10,9 +10,9 @@ export default StyleSheet.create({
     alignItems: "center",
   },
   thumb: {
-    width: 40,
-    height: 40,
-    borderRadius: 30,
+    width: 30,
+    height: 30,
+    borderRadius: 15,
     marginRight: 10,
   },
   contentRight: {

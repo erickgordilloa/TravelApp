@@ -44,6 +44,7 @@ import EventItem from "./EventItem";
 import EventCard from "./EventCard";
 import TextInput from "./TextInput";
 import RangeSlider from "./RangeSlider";
+import Trips from "./Trips";
 
 export {
   BusPlan,
@@ -92,4 +93,5 @@ export {
   EventCard,
   TextInput,
   RangeSlider,
+  Trips,
 };

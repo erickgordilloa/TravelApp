@@ -1,65 +1,3 @@
-/* import React from "react";
-import { StyleSheet } from "react-native";
-import { BaseColor } from "@config";
-
-export default StyleSheet.create({
-  contentTitle: {
-    alignItems: "flex-start",
-    width: "100%",
-    height: 32,
-    justifyContent: "center",
-  },
-  contain: {
-    flex: 1,
-    padding: 20,
-  },
-  textInput: {
-    height: 56,
-    backgroundColor: BaseColor.fieldColor,
-    borderRadius: 5,
-    padding: 10,
-    width: "100%",
-  },
-  profileItem: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    paddingVertical: 20,
-  },
-  circlePoint: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    marginRight: 5,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-
-  contentTag: {
-    marginLeft: 20,
-    marginTop: 10,
-    width: 80,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  tabbar: {
-    height: 40,
-  },
-  tab: {
-    width: 130,
-  },
-  indicator: {
-    height: 1,
-  },
-  label: {
-    fontWeight: "400",
-  },
-  tourItem: {
-    width: 160,
-  },
-});
- */
-
 import { StyleSheet } from "react-native";
 import { BaseColor } from "@config";
 import * as Utils from "@utils";
@@ -110,5 +48,13 @@ export default StyleSheet.create({
     justifyContent: "space-between",
     paddingVertical: 10,
     borderBottomWidth: 1,
+  },
+  circlePoint: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    marginRight: 5,
+    alignItems: "center",
+    justifyContent: "center",
   },
 });

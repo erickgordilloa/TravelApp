@@ -34,10 +34,7 @@ export default function ProfileDetailCard(props) {
               styles.thumb,
               styleThumb,
               {
-                borderRadius: 150 / 2,
                 overflow: "hidden",
-                borderWidth: 3,
-                borderColor: colors.primary,
               },
             ]}
           />

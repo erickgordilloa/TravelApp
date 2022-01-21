@@ -3,8 +3,10 @@ import { View } from "react-native";
 import { Text } from "@components";
 import styles from "./styles";
 import PropTypes from "prop-types";
+import { useTheme } from "@config";
 
 export default function ProfilePerformance(props) {
+  const { colors } = useTheme();
   const renderValue = (type, value) => {
     switch (type) {
       case "primary":
@@ -68,21 +70,57 @@ export default function ProfilePerformance(props) {
           {data.map((item, index) => {
             if (index == 0) {
               return (
-                <View style={[styles.contentCenter, contentCenter]} key={index}>
+                <View
+                  style={[
+                    styles.contentCenter,
+                    contentCenter,
+                    {
+                      backgroundColor: colors.background,
+                      borderRadius: 10,
+                      margin: 10,
+                      padding: 10,
+                    },
+                  ]}
+                  key={index}
+                >
                   {renderValue(type, item.value)}
                   {renderTitle(type, item.title)}
                 </View>
               );
             } else if (index == data.length - 1) {
               return (
-                <View style={[styles.contentCenter, contentCenter]} key={index}>
+                <View
+                  style={[
+                    styles.contentCenter,
+                    contentCenter,
+                    {
+                      backgroundColor: colors.background,
+                      borderRadius: 10,
+                      margin: 10,
+                      padding: 10,
+                    },
+                  ]}
+                  key={index}
+                >
                   {renderValue(type, item.value)}
                   {renderTitle(type, item.title)}
                 </View>
               );
             } else {
               return (
-                <View style={[styles.contentCenter, contentCenter]} key={index}>
+                <View
+                  style={[
+                    styles.contentCenter,
+                    contentCenter,
+                    {
+                      backgroundColor: colors.background,
+                      borderRadius: 10,
+                      margin: 10,
+                      padding: 10,
+                    },
+                  ]}
+                  key={index}
+                >
                   {renderValue(type, item.value)}
                   {renderTitle(type, item.title)}
                 </View>

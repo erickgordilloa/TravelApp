@@ -12,6 +12,7 @@ import {
 import styles from "./styles";
 import { TourData } from "@data";
 import { useTranslation } from "react-i18next";
+import { FloatingAction } from "react-native-floating-action";
 
 export default function Home({ navigation }) {
   const { t } = useTranslation();
@@ -34,6 +35,27 @@ export default function Home({ navigation }) {
 
   const [refreshing] = useState(false);
   const [tours] = useState(TourData);
+
+  const actions = [
+    {
+      text: "Add visited place",
+      icon: <Icon name="map-marker-alt" size={18} color={"white"} />,
+      name: "add_visited_place",
+      position: 1,
+    },
+    {
+      text: "Create bucket list",
+      icon: <Icon name="clipboard-list" size={18} color={"white"} />,
+      name: "create_bucket_list",
+      position: 2,
+    },
+    {
+      text: "Create trip album",
+      icon: <Icon name="book" size={18} color={"white"} />,
+      name: "bt_room",
+      position: 3,
+    },
+  ];
 
   const renderContent = () => {
     const navbarTranslate = clampedScroll.interpolate({
@@ -115,7 +137,7 @@ export default function Home({ navigation }) {
           <View style={{ marginLeft: 20, marginRight: 20, marginBottom: 20 }}>
             <TextInput
               onChangeText={(text) => setSearch(text)}
-              placeholder={t("search")}
+              placeholder={t("Search country, city, restaurants, bar...")}
               value={search}
               onSubmitEditing={() => {
                 onSearch(search);
@@ -127,7 +149,7 @@ export default function Home({ navigation }) {
                   }}
                   style={styles.btnClearSearch}
                 >
-                  <Icon name="times" size={18} color={BaseColor.grayColor} />
+                  <Icon name="search" size={18} color={BaseColor.grayColor} />
                 </TouchableOpacity>
               }
             />
@@ -146,6 +168,13 @@ export default function Home({ navigation }) {
       >
         {renderContent()}
       </SafeAreaView>
+
+      <FloatingAction
+        actions={actions}
+        onPressItem={(name) => {
+          console.log(`selected button: ${name}`);
+        }}
+      />
     </View>
   );
 }

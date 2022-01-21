@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AuthActions } from "@actions";
 import {
@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   Platform,
+  Alert,
 } from "react-native";
 import { BaseStyle, useTheme } from "@config";
 import {
@@ -32,16 +33,29 @@ export default function SignIn({ navigation }) {
   const [email, setEmail] = useState("stefano@gmail.com");
   const [password, setPassword] = useState("12345678");
   const [visible, setVisible] = useState(true);
-  const [loading, setLoading] = useState(false);
+  //const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState({ email: true, password: true });
 
-  const { login, error, userInfo } = useSelector((state) => state.auth);
-  console.log(login, error, userInfo);
+  const auth = useSelector((state) => state.auth);
+  const { error, userInfo, loading } = auth;
 
-  /**
-   * call when action login
-   *
-   */
+  useEffect(() => {
+    if (error.length === 0) return;
+
+    Alert.alert("Login incorrecto", error, [
+      {
+        text: "Ok",
+        onPress: () => dispatch(AuthActions.onRemoveError()),
+      },
+    ]);
+  }, [error]);
+
+  useEffect(() => {
+    if (userInfo) {
+      return navigation.goBack();
+    }
+  }, [userInfo]);
+
   const onLogin = () => {
     if (email == "" || password == "") {
       setSuccess({
@@ -50,19 +64,7 @@ export default function SignIn({ navigation }) {
         password: false,
       });
     } else {
-      setLoading(true);
-      dispatch(
-        AuthActions.login(email, password, (response) => {
-          //me quede aqui
-          setLoading(false);
-          navigation.goBack();
-        })
-        /* AuthActions.authentication(false, (response) => {
-          //me quede aqui
-          setLoading(false);
-          navigation.goBack();
-        }) */
-      );
+      dispatch(AuthActions.login(email, password));
     }
   };
 
