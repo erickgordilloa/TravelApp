@@ -20,8 +20,6 @@ import Car from "@screens/Car";
 import OverViewCar from "@screens/OverViewCar";
 import Hotel from "@screens/Hotel";
 
-import Messages from "@screens/Messages";
-
 import ProfileExample from "@screens/ProfileExample";
 import ChangeLanguage from "@screens/ChangeLanguage";
 import HotelInformation from "@screens/HotelInformation";
@@ -68,6 +66,8 @@ import NotFound from "@screens/NotFound";
 
 /** Huecas Screem**/
 import HuecasDetail from "@screens/HuecasDetail";
+import AlbumCreate from "@screens/AlbumCreate";
+import AlbumDetail from "@screens/AlbumDetail";
 import Huecas from "@screens/Huecas";
 import Review from "@screens/Review";
 import Notification from "@screens/Notification";
@@ -80,6 +80,7 @@ import ProfileEdit from "@screens/ProfileEdit";
 import Profile from "@screens/Profile";
 import Feedback from "@screens/Feedback";
 import Messenger from "@screens/Messenger";
+import Messages from "@screens/Messages";
 /** Huecas Screem**/
 
 /* Bottom Screen */
@@ -128,6 +129,8 @@ export default function Main() {
       <MainStack.Screen name="HotelDetail" component={HotelDetail} />
       {/* huecas routes */}
       <MainStack.Screen name="HuecasDetail" component={HuecasDetail} />
+      <MainStack.Screen name="AlbumCreate" component={AlbumCreate} />
+      <MainStack.Screen name="AlbumDetail" component={AlbumDetail} />
       <MainStack.Screen name="Notification" component={Notification} />
       <MainStack.Screen name="Walkthrough" component={Walkthrough} />
       <MainStack.Screen name="SignUp" component={SignUp} />
@@ -190,8 +193,7 @@ function BottomTabNavigator() {
   const { colors } = useTheme();
   const font = useFont();
   const auth = useSelector((state) => state.auth);
-  console.log("auth", auth);
-  const login = auth.login; //auth.login.success;
+  const login = auth.login;
   return (
     <BottomTab.Navigator
       initialRouteName="Home"
@@ -239,7 +241,7 @@ function BottomTabNavigator() {
         }}
       />
       <BottomTab.Screen
-        name="Messages"
+        name="Messenger"
         component={Messenger}
         options={{
           title: "Chat",
@@ -249,8 +251,8 @@ function BottomTabNavigator() {
         }}
       />
       <BottomTab.Screen
-        name="Messages1"
-        component={Messenger}
+        name="Profile1"
+        component={login ? Profile : Walkthrough}
         options={{
           title: "Bucket List",
           tabBarIcon: ({ color }) => {

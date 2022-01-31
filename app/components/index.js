@@ -45,6 +45,7 @@ import EventCard from "./EventCard";
 import TextInput from "./TextInput";
 import RangeSlider from "./RangeSlider";
 import Trips from "./Trips";
+import DateField from "./DateField";
 
 export {
   BusPlan,
@@ -94,4 +95,5 @@ export {
   TextInput,
   RangeSlider,
   Trips,
+  DateField,
 };

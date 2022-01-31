@@ -77,3 +77,32 @@ export const register =
       console.log(error);
     }
   };
+
+export const getProfile = () => async (dispatch) => {
+  try {
+    dispatch({
+      type: actionTypes.LOGIN_REQUEST,
+    });
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    const { data } = await axios.post(
+      `${baseUrl}/login`,
+      { email, password },
+      config
+    );
+    dispatch(onLogin(data));
+  } catch (error) {
+    console.log(error);
+    dispatch({
+      type: actionTypes.LOGIN_ERROR,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};

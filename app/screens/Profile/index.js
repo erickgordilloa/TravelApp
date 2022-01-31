@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { View, FlatList, RefreshControl, Animated } from "react-native";
 import { BaseStyle, BaseColor, Images, useTheme } from "@config";
+import { useDispatch, useSelector } from "react-redux";
+import { AuthActions } from "@actions";
 import {
   Header,
   SafeAreaView,
@@ -18,21 +20,7 @@ import { FloatingAction } from "react-native-floating-action";
 
 export default function Profile({ navigation }) {
   const { colors } = useTheme();
-  const scrollAnim = new Animated.Value(0);
-  const offsetAnim = new Animated.Value(0);
-  const clampedScroll = Animated.diffClamp(
-    Animated.add(
-      scrollAnim.interpolate({
-        inputRange: [0, 1],
-        outputRange: [0, 1],
-        extrapolateLeft: "clamp",
-      }),
-      offsetAnim
-    ),
-    0,
-    40
-  );
-
+  const dispatch = useDispatch();
   const actions = [
     {
       text: "Add visited place",
@@ -49,7 +37,7 @@ export default function Profile({ navigation }) {
     {
       text: "Create trip album",
       icon: <Icon name="book" size={18} color={"white"} />,
-      name: "bt_room",
+      name: "create_trip_album",
       position: 3,
     },
   ];
@@ -105,6 +93,10 @@ export default function Profile({ navigation }) {
     }
   };
 
+  const logOut = () => {
+    dispatch(AuthActions.onLogOut()); //AQUI CERRAR SESION
+  };
+
   return (
     <View style={{ flex: 1 }}>
       <Header title={"Profile"} />
@@ -123,7 +115,8 @@ export default function Profile({ navigation }) {
             image={userData.image}
             textFirst={"Erick Gordillo"}
             textSecond={"egordillo@gmail.com"}
-            onPress={() => navigation.navigate("ProfileEdit")}
+            //onPress={() => navigation.navigate("ProfileEdit")}
+            onPress={() => logOut()}
           />
         </View>
         <View
@@ -197,6 +190,9 @@ export default function Profile({ navigation }) {
           actions={actions}
           onPressItem={(name) => {
             console.log(`selected button: ${name}`);
+            if (name === "create_trip_album") {
+              navigation.navigate("AlbumCreate");
+            }
           }}
         />
       </SafeAreaView>
@@ -204,79 +200,6 @@ export default function Profile({ navigation }) {
   );
 }
 
-/**
- * @description Show when tab Information activated
- * @author Passion UI <passionui.com>
- * @date 2019-08-03
- * @class PreviewTab
- * @extends {Component}
- */
-function InformationTab({ navigation }) {
-  const [tours] = useState(TourData);
-  const { colors } = useTheme();
-  const [refreshing] = useState(false);
-
-  return (
-    <View style={{ flex: 1 }}>
-      <FlatList
-        contentContainerStyle={{
-          paddingTop: 25,
-        }}
-        columnWrapperStyle={{
-          paddingLeft: 5,
-          paddingRight: 20,
-        }}
-        refreshControl={
-          <RefreshControl
-            colors={[colors.primary]}
-            tintColor={colors.primary}
-            refreshing={refreshing}
-            onRefresh={() => {}}
-          />
-        }
-        showsVerticalScrollIndicator={false}
-        numColumns={2}
-        data={tours}
-        key={"gird"}
-        keyExtractor={(item, index) => item.id}
-        renderItem={({ item, index }) => (
-          <TourItem
-            grid
-            image={item.image}
-            name={item.name}
-            location={item.location}
-            travelTime={item.travelTime}
-            startTime={item.startTime}
-            price={item.price}
-            rate={item.rate}
-            rateCount={item.rateCount}
-            numReviews={item.numReviews}
-            author={item.author}
-            services={item.services}
-            style={{
-              marginBottom: 15,
-              marginLeft: 15,
-            }}
-            onPress={() => {
-              navigation.navigate("TourDetail");
-            }}
-            onPressBookNow={() => {
-              navigation.navigate("PreviewBooking");
-            }}
-          />
-        )}
-      />
-    </View>
-  );
-}
-
-/**
- * @description Show when tab Tour activated
- * @author Passion UI <passionui.com>
- * @date 2019-08-03
- * @class PreviewTab
- * @extends {Component}
- */
 function TourTab({ navigation }) {
   const [tours] = useState(TourData);
   const { colors } = useTheme();

@@ -37,7 +37,7 @@ export default function SignIn({ navigation }) {
   const [success, setSuccess] = useState({ email: true, password: true });
 
   const auth = useSelector((state) => state.auth);
-  const { error, userInfo, loading } = auth;
+  const { error, userInfo, loading, login } = auth;
 
   useEffect(() => {
     if (error.length === 0) return;
@@ -51,10 +51,11 @@ export default function SignIn({ navigation }) {
   }, [error]);
 
   useEffect(() => {
-    if (userInfo) {
+    console.log("userInfo", login);
+    if (login) {
       return navigation.goBack();
     }
-  }, [userInfo]);
+  }, [login]);
 
   const onLogin = () => {
     if (email == "" || password == "") {

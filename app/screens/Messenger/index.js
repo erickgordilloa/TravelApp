@@ -2,16 +2,15 @@ import React, { useState } from "react";
 import { RefreshControl, FlatList, View } from "react-native";
 import { BaseStyle, useTheme } from "@config";
 import { Header, SafeAreaView, ListThumbSquare } from "@components";
-import styles from "./styles";
 import { MessagesData } from "@data";
-import { useTranslation } from "react-i18next";
 
 export default function Messenger({ navigation }) {
   const { colors } = useTheme();
-  const { t } = useTranslation();
 
   const [refreshing] = useState(false);
   const [messenger] = useState(MessagesData);
+
+  console.log("ESTOY EN LISTA DE CHATS");
 
   return (
     <View style={{ flex: 1 }}>

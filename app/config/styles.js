@@ -13,6 +13,16 @@ export const BaseStyle = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row",
   },
+  textInputDate: {
+    height: 46,
+    borderRadius: 5,
+    backgroundColor: "#efefef",
+    paddingHorizontal: 10,
+    width: "100%",
+    justifyContent: "space-between",
+    alignItems: "center",
+    flexDirection: "row",
+  },
   safeAreaView: {
     flex: 1,
     backgroundColor: "white", //se anadio el color para todo

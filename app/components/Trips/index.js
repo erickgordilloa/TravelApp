@@ -78,7 +78,7 @@ const Trips = ({ navigation }) => {
               marginLeft: 15,
             }}
             onPress={() => {
-              navigation.navigate("TourDetail");
+              navigation.navigate("AlbumDetail");
             }}
             onPressBookNow={() => {
               navigation.navigate("PreviewBooking");
