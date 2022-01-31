@@ -43,7 +43,7 @@ static void InitializeFlipper(UIApplication *application) {
   [GMSServices provideAPIKey:@"AIzaSyDvaS7W8iRIZTGJ6v5yePMWF4B2sCEVWqg"];
   
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
-  RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge moduleName:@"FelixPro" initialProperties:nil];
+  RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge moduleName:@"TravelAlbumApp" initialProperties:nil];
   if (@available(iOS 13.0, *)) {
       rootView.backgroundColor = [UIColor systemBackgroundColor];
   } else {

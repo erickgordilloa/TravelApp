@@ -11,6 +11,6 @@
 #endif
 
 
-FOUNDATION_EXPORT double Pods_FelixProVersionNumber;
-FOUNDATION_EXPORT const unsigned char Pods_FelixProVersionString[];
+FOUNDATION_EXPORT double Pods_TravelAlbumAppVersionNumber;
+FOUNDATION_EXPORT const unsigned char Pods_TravelAlbumAppVersionString[];
 

@@ -1,4 +1,4 @@
-package com.felixpro;
+package com.travelalbum.app;
 
 import android.content.Context;
 import com.facebook.flipper.android.AndroidFlipperClient;

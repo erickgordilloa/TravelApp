@@ -1,4 +1,4 @@
-package com.felixpro;
+package com.travelalbum.app;
 import org.devio.rn.splashscreen.SplashScreen;
 import android.os.Bundle;
 import com.facebook.react.ReactActivity;
@@ -14,7 +14,7 @@ public class MainActivity extends ReactActivity {
      */
     @Override
     protected String getMainComponentName() {
-        return "FelixPro";
+        return "TravelAlbumApp";
     }
     
     @Override
