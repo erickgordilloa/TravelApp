@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { View, ScrollView, Animated, FlatList } from "react-native";
+import {
+  View,
+  ScrollView,
+  Animated,
+  FlatList,
+  RefreshControl,
+} from "react-native";
 import { BaseColor, Images, useTheme } from "@config";
 import {
   Header,
@@ -20,7 +26,9 @@ import { InteractionManager } from "react-native";
 import MapView, { PROVIDER_GOOGLE, Marker } from "react-native-maps";
 import styles from "./styles";
 import { TourData } from "@data";
+import { FloatingAction } from "react-native-floating-action";
 import { useTranslation } from "react-i18next";
+import ImagePicker from "react-native-image-crop-picker";
 
 export default function AlbumDetail({ navigation }) {
   const { colors } = useTheme();
@@ -28,68 +36,98 @@ export default function AlbumDetail({ navigation }) {
 
   const [heightHeader, setHeightHeader] = useState(Utils.heightHeader());
   const [tours] = useState(TourData);
+  const [refreshing] = useState(false);
   const deltaY = new Animated.Value(0);
 
   const heightImageBanner = Utils.scaleWithPixel(250, 1);
   const marginTopBanner = heightImageBanner - heightHeader - 75;
 
+  const actions = [
+    {
+      text: "Select images",
+      icon: <Icon name="camera" size={18} color={"white"} />,
+      name: "camera",
+      position: 1,
+    },
+    {
+      text: "Edit trip",
+      icon: <Icon name="pencil-alt" size={18} color={"white"} />,
+      name: "edit",
+      position: 2,
+    },
+    {
+      text: "Delete this trip",
+      icon: <Icon name="trash" size={18} color={"white"} />,
+      name: "trash",
+      color: "red",
+      position: 2,
+    },
+  ];
+
+  const openCameraSelectImages = () => {
+    ImagePicker.openPicker({
+      multiple: true,
+    }).then((images) => {
+      console.log(images);
+    });
+  };
+
+  const openCameraEditCover = () => {
+    ImagePicker.openPicker({
+      multiple: true,
+    }).then((images) => {
+      console.log(images);
+    });
+  };
+
   return (
-    <View style={{ flex: 1 }}>
-      <Animated.Image
-        source={Images.trip1}
-        style={[
-          styles.imgBanner,
-          {
-            height: deltaY.interpolate({
-              inputRange: [
-                0,
-                Utils.scaleWithPixel(200),
-                Utils.scaleWithPixel(200),
-              ],
-              outputRange: [heightImageBanner, heightHeader, heightHeader],
-            }),
-          },
-        ]}
-      />
-      {/* Header */}
-      <Header
-        title=""
-        renderLeft={() => {
-          return (
-            <Icon name="arrow-left" size={20} color={"dark"} enableRTL={true} />
-          );
-        }}
-        renderRight={() => {
-          return <Icon name="images" size={20} color={BaseColor.whiteColor} />;
-        }}
-        onPressLeft={() => {
-          navigation.goBack();
-        }}
-        onPressRight={() => {
-          navigation.navigate("PreviewImage");
-        }}
-      />
-      <SafeAreaView style={{ flex: 1 }} edges={["right", "left", "bottom"]}>
-        <FlatList
-          onScroll={Animated.event([
-            {
-              nativeEvent: {
-                contentOffset: { y: deltaY },
-              },
-            },
-          ])}
-          onContentSizeChange={() => setHeightHeader(Utils.heightHeader())}
-          scrollEventThrottle={8}
-          ListHeaderComponent={
-            <View style={{ paddingHorizontal: 20 }}>
-              <View
+    <View>
+      <FlatList
+        refreshControl={
+          <RefreshControl
+            colors={[colors.primary]}
+            tintColor={colors.primary}
+            refreshing={refreshing}
+            onRefresh={() => {}}
+          />
+        }
+        ListHeaderComponent={
+          <>
+            <View>
+              <Animated.Image
+                source={Images.trip1}
                 style={[
-                  styles.blockView,
+                  styles.imgBanner,
                   {
-                    marginTop: marginTopBanner + 70,
+                    height: deltaY.interpolate({
+                      inputRange: [
+                        0,
+                        Utils.scaleWithPixel(200),
+                        Utils.scaleWithPixel(200),
+                      ],
+                      outputRange: [
+                        heightImageBanner,
+                        heightHeader,
+                        heightHeader,
+                      ],
+                    }),
                   },
                 ]}
-              >
+              />
+              <Icon
+                name="arrow-left"
+                size={20}
+                color={"dark"}
+                enableRTL={true}
+                style={{ top: 0 }}
+              />
+            </View>
+
+            <SafeAreaView
+              edges={["right", "left"]}
+              style={{ flex: 1, position: "relative" }}
+            >
+              <View style={{ padding: 15 }}>
                 <View
                   style={{
                     flexDirection: "row",
@@ -107,7 +145,7 @@ export default function AlbumDetail({ navigation }) {
                 </View>
               </View>
 
-              <View style={[styles.blockView]}>
+              <View style={{ padding: 15 }}>
                 <Text body2 style={{ marginTop: 5 }}>
                   218 Austen Mountain, consectetur adipiscing, sed eiusmod
                   tempor incididunt ut labore et dolore
@@ -115,6 +153,7 @@ export default function AlbumDetail({ navigation }) {
               </View>
 
               <FlatList
+                style={{ marginRight: 15 }}
                 showsVerticalScrollIndicator={false}
                 numColumns={2}
                 data={tours}
@@ -134,10 +173,7 @@ export default function AlbumDetail({ navigation }) {
                     numReviews={item.numReviews}
                     author={item.author}
                     services={item.services}
-                    style={{
-                      marginBottom: 15,
-                      marginLeft: 15,
-                    }}
+                    style={{ marginBottom: 15, marginLeft: 15 }}
                     onPress={() => {
                       navigation.navigate("AlbumDetail");
                     }}
@@ -147,10 +183,20 @@ export default function AlbumDetail({ navigation }) {
                   />
                 )}
               />
-            </View>
+            </SafeAreaView>
+          </>
+        }
+      />
+
+      <FloatingAction
+        actions={actions}
+        onPressItem={(name) => {
+          console.log(`selected button: ${name}`);
+          if (name === "camera") {
+            openCameraSelectImages();
           }
-        />
-      </SafeAreaView>
+        }}
+      />
     </View>
   );
 }
