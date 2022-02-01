@@ -104,6 +104,13 @@ export default StyleSheet.create({
     borderRadius: 8,
     padding: 5,
   },
+  blockLocationContent: {
+    position: "absolute",
+    bottom: 10,
+    right: 10,
+    borderRadius: 8,
+    padding: 5,
+  },
   blockDetailContent: {
     flexDirection: "row",
     alignItems: "center",

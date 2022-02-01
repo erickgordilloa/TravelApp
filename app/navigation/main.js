@@ -66,6 +66,8 @@ import NotFound from "@screens/NotFound";
 
 /** Huecas Screem**/
 import HuecasDetail from "@screens/HuecasDetail";
+import AlbumEdit from "@screens/AlbumEdit";
+import AlbumDetailImage from "@screens/AlbumDetailImage";
 import AlbumCreate from "@screens/AlbumCreate";
 import AlbumDetail from "@screens/AlbumDetail";
 import Huecas from "@screens/Huecas";
@@ -130,6 +132,8 @@ export default function Main() {
       {/* huecas routes */}
       <MainStack.Screen name="HuecasDetail" component={HuecasDetail} />
       <MainStack.Screen name="AlbumCreate" component={AlbumCreate} />
+      <MainStack.Screen name="AlbumDetailImage" component={AlbumDetailImage} />
+      <MainStack.Screen name="AlbumEdit" component={AlbumEdit} />
       <MainStack.Screen name="AlbumDetail" component={AlbumDetail} />
       <MainStack.Screen name="Notification" component={Notification} />
       <MainStack.Screen name="Walkthrough" component={Walkthrough} />

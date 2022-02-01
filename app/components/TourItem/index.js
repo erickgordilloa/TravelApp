@@ -35,6 +35,7 @@ export default function TourItem(props) {
     startTime,
     services,
     travelTime,
+    tagLocation,
   } = props;
 
   /**
@@ -183,6 +184,18 @@ export default function TourItem(props) {
       <View style={[styles.girdContent, style]}>
         <TouchableOpacity onPress={onPress} activeOpacity={0.9}>
           <Image source={image} style={[styles.girdImage]} />
+          {tagLocation && (
+            <View
+              style={[
+                styles.blockLocationContent,
+                { backgroundColor: colors.primary },
+              ]}
+            >
+              <Text footnote whiteColor>
+                Tag location
+              </Text>
+            </View>
+          )}
         </TouchableOpacity>
         <Text headline semibold>
           {name}
@@ -207,6 +220,7 @@ TourItem.propTypes = {
   list: PropTypes.bool,
   block: PropTypes.bool,
   grid: PropTypes.bool,
+  tagLocation: PropTypes.bool,
   image: PropTypes.node.isRequired,
   name: PropTypes.string,
   location: PropTypes.string,
@@ -228,6 +242,7 @@ TourItem.defaultProps = {
   list: true,
   block: false,
   grid: false,
+  tagLocation: false,
   image: "",
   name: "",
   location: "",

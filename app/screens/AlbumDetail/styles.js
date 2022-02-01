@@ -12,6 +12,17 @@ export default StyleSheet.create({
     paddingVertical: 10,
     //borderBottomWidth: 0.5,
   },
+  closeButtom: {
+    position: "absolute",
+    top: Utils.scaleWithPixel(35),
+    left: Utils.scaleWithPixel(20),
+    backgroundColor: BaseColor.grayColor,
+    width: Utils.scaleWithPixel(25),
+    height: Utils.scaleWithPixel(25),
+    borderRadius: Utils.scaleWithPixel(25) / 2,
+    justifyContent: "center",
+    alignItems: "center",
+  },
   contentService: {
     paddingVertical: 10,
     borderBottomWidth: 0.5,

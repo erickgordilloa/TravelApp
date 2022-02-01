@@ -1,12 +1,12 @@
-import React from 'react';
-import {View, TouchableOpacity} from 'react-native';
-import {Image, Text, Icon} from '@components';
-import {useTheme} from '@config';
-import styles from './styles';
-import PropTypes from 'prop-types';
+import React from "react";
+import { View, TouchableOpacity } from "react-native";
+import { Image, Text, Icon } from "@components";
+import { useTheme } from "@config";
+import styles from "./styles";
+import PropTypes from "prop-types";
 
 export default function ProfileGroup(props) {
-  const {colors} = useTheme();
+  const { colors } = useTheme();
   const {
     style,
     users,
@@ -23,8 +23,9 @@ export default function ProfileGroup(props) {
       <TouchableOpacity
         style={[styles.contentLeft, styleLeft]}
         onPress={onPress}
-        activeOpacity={0.9}>
-        <View style={{flexDirection: 'row', marginRight: 7}}>
+        activeOpacity={0.9}
+      >
+        <View style={{ flexDirection: "row", marginRight: 7 }}>
           {users.map((item, index) => {
             return (
               <Image
@@ -32,7 +33,7 @@ export default function ProfileGroup(props) {
                 source={item.image}
                 style={[
                   styles.thumb,
-                  index != 0 ? {marginLeft: -15} : {},
+                  index != 0 ? { marginLeft: -15 } : {},
                   styleThumb,
                 ]}
               />
@@ -42,8 +43,9 @@ export default function ProfileGroup(props) {
         <View
           style={{
             flex: 1,
-            alignItems: 'flex-start',
-          }}>
+            alignItems: "flex-start",
+          }}
+        >
           <Text headline semibold numberOfLines={1}>
             {name}
           </Text>
@@ -55,8 +57,9 @@ export default function ProfileGroup(props) {
       <TouchableOpacity
         style={[styles.contentRight, styleRight]}
         onPress={onPressLove}
-        activeOpacity={0.9}>
-        <Icon name="heart" color={colors.text} size={18} />
+        activeOpacity={0.9}
+      >
+        <Icon name="user-plus" color={colors.text} size={18} />
       </TouchableOpacity>
     </View>
   );
@@ -77,8 +80,8 @@ ProfileGroup.propTypes = {
 ProfileGroup.defaultProps = {
   style: {},
   users: [],
-  name: '',
-  detail: '',
+  name: "",
+  detail: "",
   styleLeft: {},
   styleThumb: {},
   styleRight: {},

@@ -5,6 +5,7 @@ import {
   Animated,
   FlatList,
   RefreshControl,
+  TouchableOpacity,
 } from "react-native";
 import { BaseColor, Images, useTheme } from "@config";
 import {
@@ -18,7 +19,7 @@ import {
   Button,
   RoomType,
   TourItem,
-  Trips,
+  ProfileGroup,
   Tag,
 } from "@components";
 import * as Utils from "@utils";
@@ -114,20 +115,19 @@ export default function AlbumDetail({ navigation }) {
                   },
                 ]}
               />
-              <Icon
-                name="arrow-left"
-                size={20}
-                color={"dark"}
-                enableRTL={true}
-                style={{ top: 0 }}
-              />
+              <TouchableOpacity
+                onPress={() => navigation.goBack()}
+                style={styles.closeButtom}
+              >
+                <Icon name="times" size={20} color={"white"} enableRTL={true} />
+              </TouchableOpacity>
             </View>
 
             <SafeAreaView
               edges={["right", "left"]}
               style={{ flex: 1, position: "relative" }}
             >
-              <View style={{ padding: 15 }}>
+              <View style={{ margin: 20 }}>
                 <View
                   style={{
                     flexDirection: "row",
@@ -143,17 +143,29 @@ export default function AlbumDetail({ navigation }) {
                     </Tag>
                   </View>
                 </View>
+                <ProfileGroup
+                  onPress={() => console.log(12)}
+                  onPressLove={() => console.log("love")}
+                  name="Steve, Lincoln, Harry"
+                  detail={`15 people_like_this`}
+                  users={[
+                    { image: Images.profile1 },
+                    { image: Images.profile3 },
+                    { image: Images.profile4 },
+                  ]}
+                />
               </View>
 
-              <View style={{ padding: 15 }}>
-                <Text body2 style={{ marginTop: 5 }}>
-                  218 Austen Mountain, consectetur adipiscing, sed eiusmod
-                  tempor incididunt ut labore et dolore
-                </Text>
-              </View>
+              <Text
+                body2
+                style={{ marginLeft: 20, marginRight: 20, marginBottom: 15 }}
+              >
+                218 Austen Mountain, consectetur adipiscing, sed eiusmod tempor
+                incididunt ut labore et dolore
+              </Text>
 
               <FlatList
-                style={{ marginRight: 15 }}
+                style={{ marginRight: 20, marginLeft: 5 }}
                 showsVerticalScrollIndicator={false}
                 numColumns={2}
                 data={tours}
@@ -162,6 +174,7 @@ export default function AlbumDetail({ navigation }) {
                 renderItem={({ item, index }) => (
                   <TourItem
                     grid
+                    tagLocation={true}
                     image={item.image}
                     name={item.name}
                     location={item.location}
@@ -175,10 +188,7 @@ export default function AlbumDetail({ navigation }) {
                     services={item.services}
                     style={{ marginBottom: 15, marginLeft: 15 }}
                     onPress={() => {
-                      navigation.navigate("AlbumDetail");
-                    }}
-                    onPressBookNow={() => {
-                      navigation.navigate("PreviewBooking");
+                      navigation.navigate("AlbumDetailImage");
                     }}
                   />
                 )}
@@ -194,6 +204,10 @@ export default function AlbumDetail({ navigation }) {
           console.log(`selected button: ${name}`);
           if (name === "camera") {
             openCameraSelectImages();
+          } else if (name === "edit") {
+            navigation.navigate("AlbumEdit", {
+              album: {},
+            });
           }
         }}
       />
