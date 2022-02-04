@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, ScrollView, TouchableOpacity } from "react-native";
+import { View, ScrollView, TouchableOpacity, FlatList } from "react-native";
 import { BaseStyle, BaseColor, Images, useTheme } from "@config";
 import { Header, SafeAreaView, Icon, Text, Button } from "@components";
 import * as Utils from "@utils";
@@ -37,38 +37,43 @@ export default function SearchPlaces({ navigation }) {
         style={{ height: "100%" }}
         edges={["right", "left", "bottom"]}
       >
-        <View style={{ marginHorizontal: 20, marginTop: 20 }}>
-          <GooglePlacesAutocomplete
-            query={{
-              key: "AIzaSyCKLFGBgDo-lVkk96k9937PaKsz6BhscjE",
-              language: "en", // language of the results
-            }}
-            placeholder="Search"
-            onPress={(data, details = null) => {
-              console.log(details);
-              console.log(data);
-              console.log("data.description", data.description.split(","));
-            }}
-            onFail={(error) => console.log(error)}
-            styles={{
-              textInputContainer: {
-                backgroundColor: "rgba(0,0,0,0)",
-                borderTopWidth: 0,
-                borderBottomWidth: 0,
-              },
-              textInput: {
-                marginLeft: 0,
-                marginRight: 0,
-                height: 38,
-                color: "#5d5d5d",
-                fontSize: 16,
-              },
-              predefinedPlacesDescription: {
-                color: "#1faadb",
-              },
-            }}
-          />
-        </View>
+        <FlatList
+          keyboardShouldPersistTaps="always"
+          keyboardShouldPersistTaps="handled"
+          style={{ marginHorizontal: 20, marginTop: 20 }}
+          ListHeaderComponent={
+            <GooglePlacesAutocomplete
+              query={{
+                key: "AIzaSyAvSs0sKmPbbIUZvQ0H0H4_ANWw1A1dBFM",
+                language: "en", // language of the results
+              }}
+              placeholder="Search"
+              onPress={(data, details = null) => {
+                console.log(details);
+                console.log(data);
+                console.log("data.description", data.description.split(","));
+              }}
+              onFail={(error) => console.log(error)}
+              styles={{
+                textInputContainer: {
+                  backgroundColor: "rgba(0,0,0,0)",
+                  borderTopWidth: 0,
+                  borderBottomWidth: 0,
+                },
+                textInput: {
+                  marginLeft: 0,
+                  marginRight: 0,
+                  height: 38,
+                  color: "#5d5d5d",
+                  fontSize: 16,
+                },
+                predefinedPlacesDescription: {
+                  color: "#1faadb",
+                },
+              }}
+            />
+          }
+        />
       </SafeAreaView>
     </View>
   );
