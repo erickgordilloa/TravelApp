@@ -118,10 +118,8 @@ export default function Home({ navigation }) {
                 marginLeft: 15,
               }}
               onPress={() => {
-                navigation.navigate("TourDetail");
-              }}
-              onPressBookNow={() => {
-                navigation.navigate("PreviewBooking");
+                //navigation.navigate("TourDetail");
+                console.log("album");
               }}
             />
           )}

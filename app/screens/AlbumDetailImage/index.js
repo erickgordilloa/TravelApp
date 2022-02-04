@@ -119,7 +119,10 @@ export default function AlbumDetailImage({ navigation }) {
           </TouchableOpacity>
         </View>
         <View style={{ marginHorizontal: 20, marginTop: 15 }}>
-          <View style={styles.blockContentAddress}>
+          <TouchableOpacity
+            style={styles.blockContentAddress}
+            onPress={() => navigation.navigate("SearchPlaces")}
+          >
             <Icon name="map-marker-alt" color={colors.primary} size={16} />
             <Text
               body2
@@ -131,7 +134,7 @@ export default function AlbumDetailImage({ navigation }) {
             >
               Tag Location
             </Text>
-          </View>
+          </TouchableOpacity>
           <TextInput
             onChangeText={(text) => setDescription(text)}
             placeholder={"Description"}

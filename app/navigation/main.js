@@ -83,6 +83,7 @@ import Profile from "@screens/Profile";
 import Feedback from "@screens/Feedback";
 import Messenger from "@screens/Messenger";
 import Messages from "@screens/Messages";
+import SearchPlaces from "@screens/SearchPlaces";
 /** Huecas Screem**/
 
 /* Bottom Screen */
@@ -142,6 +143,7 @@ export default function Main() {
       <MainStack.Screen name="ResetPassword" component={ResetPassword} />
       <MainStack.Screen name="ChangePassword" component={ChangePassword} />
       <MainStack.Screen name="ProfileEdit" component={ProfileEdit} />
+      <MainStack.Screen name="SearchPlaces" component={SearchPlaces} />
       {/* huecas routes */}
       <MainStack.Screen name="ContactUs" component={ContactUs} />
       <MainStack.Screen name="PreviewBooking" component={PreviewBooking} />
