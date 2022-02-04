@@ -40,7 +40,7 @@ export default function SearchPlaces({ navigation }) {
         <View style={{ marginHorizontal: 20, marginTop: 20 }}>
           <GooglePlacesAutocomplete
             query={{
-              key: "AIzaSyAvSs0sKmPbbIUZvQ0H0H4_ANWw1A1dBFM",
+              key: "AIzaSyCKLFGBgDo-lVkk96k9937PaKsz6BhscjE",
               language: "en", // language of the results
             }}
             placeholder="Search"
