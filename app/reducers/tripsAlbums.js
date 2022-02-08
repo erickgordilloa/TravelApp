@@ -140,3 +140,39 @@ export const tripFilesListReducer = (
       return state;
   }
 };
+
+const initialStateTripCreate = {
+  loading: false,
+  error: "",
+  createtripAlbum: null,
+};
+
+export const tripAlbumCreateReducer = (
+  state = initialStateTripCreate,
+  action = {}
+) => {
+  switch (action.type) {
+    case actionTypes.TRIPS_ALBUM_CREATE_REQUEST:
+      return {
+        ...initialStateTripCreate,
+        loading: true,
+      };
+    case actionTypes.TRIPS_ALBUM_CREATE_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        createtripAlbum: action.payload,
+      };
+    case actionTypes.TRIPS_ALBUM_CREATE_ERROR:
+      return {
+        loading: false,
+        error: action.payload,
+      };
+    case actionTypes.TRIPS_ALBUM_CREATE_RESET:
+      return {
+        ...initialStateTripCreate,
+      };
+    default:
+      return state;
+  }
+};

@@ -1,8 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { View, FlatList, RefreshControl, Alert } from "react-native";
+import {
+  View,
+  FlatList,
+  RefreshControl,
+  Alert,
+  ActivityIndicator,
+} from "react-native";
 import { TourItem } from "@components";
 import { useTheme } from "@config";
-import { UserData, TourData } from "@data";
 import { useDispatch, useSelector } from "react-redux";
 import { TripsAlbumsActions } from "@actions";
 
@@ -34,46 +39,58 @@ const Trips = ({ navigation }) => {
   }, [error]);
 
   return (
-    <View style={{ flex: 1 }}>
-      <FlatList
-        contentContainerStyle={{
-          paddingTop: 25,
-        }}
-        columnWrapperStyle={{
-          paddingLeft: 5,
-          paddingRight: 20,
-        }}
-        refreshControl={
-          <RefreshControl
-            colors={[colors.primary]}
-            tintColor={colors.primary}
-            refreshing={loading}
-            onRefresh={() => getTripsAlbumData()}
-          />
-        }
-        showsVerticalScrollIndicator={false}
-        numColumns={2}
-        data={dataAlbums}
-        key={"gird"}
-        keyExtractor={(item, index) => item.id}
-        renderItem={({ item, index }) => (
-          <TourItem
-            grid
-            image={{ uri: item.cover }}
-            name={item.title}
-            style={{
-              marginBottom: 15,
-              marginLeft: 15,
+    <>
+      {loading ? (
+        <View
+          style={{
+            flex: 1,
+            justifyContent: "center",
+          }}
+        >
+          <ActivityIndicator size="large" color={colors.primary} />
+        </View>
+      ) : (
+        <View style={{ flex: 1 }}>
+          <FlatList
+            contentContainerStyle={{
+              paddingTop: 25,
             }}
-            onPress={() => {
-              navigation.navigate("AlbumDetail", {
-                idTrip: item.idtrip,
-              });
+            columnWrapperStyle={{
+              paddingLeft: 5,
+              paddingRight: 20,
             }}
+            refreshControl={
+              <RefreshControl
+                colors={[colors.primary]}
+                tintColor={colors.primary}
+                refreshing={loading}
+                onRefresh={() => getTripsAlbumData()}
+              />
+            }
+            showsVerticalScrollIndicator={false}
+            numColumns={2}
+            data={dataAlbums}
+            keyExtractor={(item, index) => item.idtrip}
+            renderItem={({ item, index }) => (
+              <TourItem
+                grid
+                image={{ uri: item.cover }}
+                name={item.title}
+                style={{
+                  marginBottom: 15,
+                  marginLeft: 15,
+                }}
+                onPress={() => {
+                  navigation.navigate("AlbumDetail", {
+                    idTrip: item.idtrip,
+                  });
+                }}
+              />
+            )}
           />
-        )}
-      />
-    </View>
+        </View>
+      )}
+    </>
   );
 };
 

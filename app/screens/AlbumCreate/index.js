@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   ScrollView,
   KeyboardAvoidingView,
   Platform,
   StyleSheet,
+  Alert,
 } from "react-native";
 import { BaseStyle, useTheme, BaseColor } from "@config";
 import {
@@ -22,10 +23,13 @@ import { useTranslation } from "react-i18next";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import RNPickerSelect from "react-native-picker-select";
 import moment from "moment";
+import { useDispatch, useSelector } from "react-redux";
+import { TripsAlbumsActions } from "@actions";
 
 export default function AlbumCreate({ navigation }) {
   const { colors } = useTheme();
   const { t } = useTranslation();
+  const dispatch = useDispatch();
   const offsetKeyboard = Platform.select({
     ios: 0,
     android: 20,
@@ -35,10 +39,42 @@ export default function AlbumCreate({ navigation }) {
   const [option, setOption] = useState("Public");
   const [dateStart, setDateStart] = useState("Date Start");
   const [dateEnd, setDateEnd] = useState("Date End");
+  const [date_start, setDate_Start] = useState("");
+  const [date_end, setDate_End] = useState("");
   const [description, setDescription] = useState();
-  const [loading, setLoading] = useState(false);
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [isDatePickerVisibleEnd, setDatePickerVisibilityEnd] = useState(false);
+
+  const createAlbum = () => {
+    dispatch(
+      TripsAlbumsActions.createTripsAlbums(
+        nameTrip,
+        option,
+        date_start,
+        date_end,
+        description
+      )
+    );
+  };
+
+  const tripAlbumCreate = useSelector((state) => state.tripAlbumCreate);
+  const { error, createtripAlbum, loading } = tripAlbumCreate;
+  console.log("tripAlbumCreate", tripAlbumCreate);
+
+  useEffect(() => {
+    if (createtripAlbum) {
+      Alert.alert("Exito", "Create trips success", [
+        {
+          text: "Ok",
+          onPress: () => {
+            dispatch(TripsAlbumsActions.onRemoveErrorCreateTrip());
+            dispatch(TripsAlbumsActions.getTripsAlbum());
+            navigation.goBack();
+          },
+        },
+      ]);
+    }
+  }, [dispatch]);
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -55,13 +91,14 @@ export default function AlbumCreate({ navigation }) {
   };
 
   const handleConfirm = (date) => {
-    console.log("A date has been picked: ", date);
     setDateStart(moment(date).format("MMMM, Do YYYY"));
+    setDate_Start(moment(date).format("YYYY-MM-DD"));
     hideDatePicker();
   };
   const handleConfirmEnd = (date) => {
     console.log("A date has been picked: ", date);
     setDateEnd(moment(date).format("MMMM, Do YYYY"));
+    setDate_End(moment(date).format("YYYY-MM-DD"));
     hideDatePickerEnd();
   };
 
@@ -163,10 +200,7 @@ export default function AlbumCreate({ navigation }) {
               full
               round
               onPress={() => {
-                setLoading(true);
-                setTimeout(() => {
-                  navigation.goBack();
-                }, 500);
+                createAlbum();
               }}
             >
               Create Trip

@@ -20,7 +20,6 @@ export default function ProfileDetailCard(props) {
     textThird,
     icon,
   } = props;
-  console.log("image", image);
 
   const [errorImage, setErrorImage] = useState(false);
   return (
@@ -34,7 +33,6 @@ export default function ProfileDetailCard(props) {
           <Image
             source={errorImage ? Images.avatar : image}
             onError={(e) => {
-              console.log("error images", e);
               setErrorImage(true);
             }}
             style={[

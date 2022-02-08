@@ -87,9 +87,12 @@ export default function AlbumDetail({ navigation, route }) {
     });
   };
 
-  useEffect(() => {
+  const loadInfo = () => {
     dispatch(TripsAlbumsActions.getTripsAlbumId(idTrip));
     dispatch(TripsAlbumsActions.getTripsAlbumFiles(idTrip));
+  };
+  useEffect(() => {
+    loadInfo();
   }, [dispatch]);
 
   const showModalDelete = () => {
@@ -129,7 +132,9 @@ export default function AlbumDetail({ navigation, route }) {
               colors={[colors.primary]}
               tintColor={colors.primary}
               refreshing={refreshing}
-              onRefresh={() => {}}
+              onRefresh={() => {
+                loadInfo();
+              }}
             />
           }
           ListHeaderComponent={
@@ -210,28 +215,41 @@ export default function AlbumDetail({ navigation, route }) {
                 incididunt ut labore et dolore
               </Text> */}
 
-                <FlatList
-                  style={{ marginRight: 20, marginLeft: 5 }}
-                  showsVerticalScrollIndicator={false}
-                  numColumns={2}
-                  data={tripFiles}
-                  key={"gird"}
-                  keyExtractor={(item, index) => item.id}
-                  renderItem={({ item, index }) => (
-                    <TourItem
-                      grid
-                      tagLocation={true}
-                      image={{ uri: item.file }}
-                      name={item.descripcion}
-                      style={{ marginBottom: 15, marginLeft: 15 }}
-                      onPress={() => {
-                        navigation.navigate("AlbumDetailImage", {
-                          detailImage: item,
-                        });
-                      }}
+                {loadingFiles ? (
+                  <View
+                    style={{
+                      flex: 1,
+                      justifyContent: "center",
+                    }}
+                  >
+                    <ActivityIndicator size="large" color={colors.primary} />
+                  </View>
+                ) : (
+                  <>
+                    <FlatList
+                      style={{ marginRight: 20, marginLeft: 5 }}
+                      showsVerticalScrollIndicator={false}
+                      numColumns={2}
+                      data={tripFiles}
+                      key={"gird"}
+                      keyExtractor={(item, index) => item.id}
+                      renderItem={({ item, index }) => (
+                        <TourItem
+                          grid
+                          tagLocation={true}
+                          image={{ uri: item.file }}
+                          name={item.descripcion}
+                          style={{ marginBottom: 15, marginLeft: 15 }}
+                          onPress={() => {
+                            navigation.navigate("AlbumDetailImage", {
+                              detailImage: item,
+                            });
+                          }}
+                        />
+                      )}
                     />
-                  )}
-                />
+                  </>
+                )}
               </SafeAreaView>
             </>
           }

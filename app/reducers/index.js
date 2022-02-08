@@ -8,6 +8,7 @@ import {
   tripsAlbumsIdReducer,
   homeListReducer,
   tripFilesListReducer,
+  tripAlbumCreateReducer,
 } from "./tripsAlbums";
 
 export default combineReducers({
@@ -19,4 +20,5 @@ export default combineReducers({
   tripsAlbums: tripsAlbumsReducer,
   tripsAlbumsId: tripsAlbumsIdReducer,
   tripFilesList: tripFilesListReducer,
+  tripAlbumCreate: tripAlbumCreateReducer,
 });

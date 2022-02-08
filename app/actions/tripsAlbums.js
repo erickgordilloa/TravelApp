@@ -19,6 +19,12 @@ export const onRemoveErrorHome = () => {
   };
 };
 
+export const onRemoveErrorCreateTrip = () => {
+  return {
+    type: actionTypes.TRIPS_ALBUM_CREATE_RESET,
+  };
+};
+
 export const getTripsAlbum = () => async (dispatch, getState) => {
   try {
     dispatch({
@@ -160,3 +166,43 @@ export const getHome = () => async (dispatch, getState) => {
     });
   }
 };
+
+export const createTripsAlbums =
+  (name_trip, option, date_star, date_end, descripcion) =>
+  async (dispatch, getState) => {
+    try {
+      dispatch({
+        type: actionTypes.TRIPS_ALBUM_CREATE_REQUEST,
+      });
+      console.log({ name_trip, option, date_star, date_end, descripcion });
+      const {
+        auth: { token },
+      } = getState();
+
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      const { data } = await axios.post(
+        `${baseUrl}/TripCreate`,
+        { name_trip, option, date_star, date_end, descripcion },
+        config
+      );
+      console.log("data", data);
+      dispatch({
+        type: actionTypes.TRIPS_ALBUM_CREATE_SUCCESS,
+        payload: data.info,
+      });
+    } catch (error) {
+      dispatch({
+        type: actionTypes.TRIPS_ALBUM_CREATE_ERROR,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
+    }
+  };
