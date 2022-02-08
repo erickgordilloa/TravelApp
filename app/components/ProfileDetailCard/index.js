@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, TouchableOpacity } from "react-native";
 import { Image, Icon, Text } from "@components";
 import styles from "./styles";
 import PropTypes from "prop-types";
-import { BaseColor, useTheme } from "@config";
+import { BaseColor, useTheme, Images } from "@config";
 
 export default function ProfileDetailCard(props) {
   const { colors } = useTheme();
@@ -20,6 +20,9 @@ export default function ProfileDetailCard(props) {
     textThird,
     icon,
   } = props;
+  console.log("image", image);
+
+  const [errorImage, setErrorImage] = useState(false);
   return (
     <TouchableOpacity
       style={[styles.contain, style, { marginTop: 0 }]}
@@ -29,7 +32,11 @@ export default function ProfileDetailCard(props) {
       <View style={[styles.contentLeft, styleLeft]}>
         <View>
           <Image
-            source={image}
+            source={errorImage ? Images.avatar : image}
+            onError={(e) => {
+              console.log("error images", e);
+              setErrorImage(true);
+            }}
             style={[
               styles.thumb,
               styleThumb,

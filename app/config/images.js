@@ -10,6 +10,7 @@ export const Images = {
   LogoColor: require("@assets/images/LogoHuecasColor.png"), //
 
   slide: require("@assets/images/slide.png"),
+  avatar: require("@assets/images/avatar.png"),
   avata1: require("@assets/images/avata-01.jpeg"),
   avata2: require("@assets/images/avata-02.jpeg"),
   avata3: require("@assets/images/avata-03.jpeg"),

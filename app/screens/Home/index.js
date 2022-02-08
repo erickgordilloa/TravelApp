@@ -1,21 +1,23 @@
-import React, { useState } from "react";
-import { RefreshControl, View, Animated, TouchableOpacity } from "react-native";
-import { BaseStyle, useTheme, BaseColor } from "@config";
+import React, { useState, useEffect } from "react";
 import {
-  Header,
-  SafeAreaView,
-  Icon,
-  TourItem,
-  TextInput,
-  Text,
-} from "@components";
+  RefreshControl,
+  View,
+  Animated,
+  TouchableOpacity,
+  ActivityIndicator,
+} from "react-native";
+import { BaseStyle, useTheme, BaseColor } from "@config";
+import { Header, SafeAreaView, Icon, TourItem, TextInput } from "@components";
 import styles from "./styles";
 import { TourData } from "@data";
 import { useTranslation } from "react-i18next";
 import { FloatingAction } from "react-native-floating-action";
+import { useDispatch, useSelector } from "react-redux";
+import { TripsAlbumsActions } from "@actions";
 
 export default function Home({ navigation }) {
   const { t } = useTranslation();
+  const dispatch = useDispatch();
   const scrollAnim = new Animated.Value(0);
   const offsetAnim = new Animated.Value(0);
   const [search, setSearch] = useState("");
@@ -32,9 +34,11 @@ export default function Home({ navigation }) {
     40
   );
   const { colors } = useTheme();
-
-  const [refreshing] = useState(false);
   const [tours] = useState(TourData);
+
+  const homeList = useSelector((state) => state.homeList);
+  const { error, listHome, loading } = homeList;
+  console.log("homeList", homeList);
 
   const actions = [
     {
@@ -57,18 +61,29 @@ export default function Home({ navigation }) {
     },
   ];
 
+  const getHomeList = () => {
+    dispatch(TripsAlbumsActions.getHome());
+  };
+
+  useEffect(() => {
+    getHomeList();
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (error.length === 0) return;
+
+    Alert.alert("Error", error, [
+      {
+        text: "Ok",
+        onPress: () => dispatch(TripsAlbumsActions.onRemoveErrorHome()),
+      },
+    ]);
+  }, [error]);
+
   const renderContent = () => {
-    const navbarTranslate = clampedScroll.interpolate({
-      inputRange: [0, 40],
-      outputRange: [0, -40],
-      extrapolate: "clamp",
-    });
     return (
       <View style={{ flex: 1 }}>
         <Animated.FlatList
-          contentContainerStyle={{
-            paddingTop: 70,
-          }}
           columnWrapperStyle={{
             paddingLeft: 5,
             paddingRight: 20,
@@ -77,8 +92,8 @@ export default function Home({ navigation }) {
             <RefreshControl
               colors={[colors.primary]}
               tintColor={colors.primary}
-              refreshing={refreshing}
-              onRefresh={() => {}}
+              refreshing={loading}
+              onRefresh={() => getHomeList()}
             />
           }
           scrollEventThrottle={1}
@@ -96,63 +111,30 @@ export default function Home({ navigation }) {
           )}
           showsVerticalScrollIndicator={false}
           numColumns={2}
-          data={tours}
+          data={listHome}
           key={"gird"}
           keyExtractor={(item, index) => item.id}
           renderItem={({ item, index }) => (
             <TourItem
               grid
-              image={item.image}
-              name={item.name}
-              location={item.location}
-              travelTime={item.travelTime}
-              startTime={item.startTime}
-              price={item.price}
-              rate={item.rate}
-              rateCount={item.rateCount}
-              numReviews={item.numReviews}
-              author={item.author}
-              services={item.services}
+              image={{ uri: item.picture }}
+              name={item.title}
+              author={{
+                image: { uri: item.avatar },
+                name: item.user_name,
+              }}
               style={{
                 marginBottom: 15,
                 marginLeft: 15,
               }}
               onPress={() => {
-                //navigation.navigate("TourDetail");
-                console.log("album");
+                navigation.navigate("AlbumDetail", {
+                  idTrip: item.idtrip,
+                });
               }}
             />
           )}
         />
-        <Animated.View
-          style={[
-            styles.navbar,
-            {
-              transform: [{ translateY: navbarTranslate }],
-            },
-          ]}
-        >
-          <View style={{ marginLeft: 20, marginRight: 20, marginBottom: 20 }}>
-            <TextInput
-              onChangeText={(text) => setSearch(text)}
-              placeholder={t("Search country, city, restaurants, bar...")}
-              value={search}
-              onSubmitEditing={() => {
-                onSearch(search);
-              }}
-              icon={
-                <TouchableOpacity
-                  onPress={() => {
-                    setSearch("");
-                  }}
-                  style={styles.btnClearSearch}
-                >
-                  <Icon name="search" size={18} color={BaseColor.grayColor} />
-                </TouchableOpacity>
-              }
-            />
-          </View>
-        </Animated.View>
       </View>
     );
   };
@@ -164,7 +146,38 @@ export default function Home({ navigation }) {
         style={BaseStyle.safeAreaView}
         edges={["right", "left", "bottom"]}
       >
-        {renderContent()}
+        <View style={{ marginLeft: 20, marginRight: 20, marginBottom: 20 }}>
+          <TextInput
+            onChangeText={(text) => setSearch(text)}
+            placeholder={t("Search country, city, restaurants, bar...")}
+            value={search}
+            onSubmitEditing={() => {
+              onSearch(search);
+            }}
+            icon={
+              <TouchableOpacity
+                onPress={() => {
+                  setSearch("");
+                }}
+                style={styles.btnClearSearch}
+              >
+                <Icon name="search" size={18} color={BaseColor.grayColor} />
+              </TouchableOpacity>
+            }
+          />
+        </View>
+        {loading ? (
+          <View
+            style={{
+              flex: 1,
+              justifyContent: "center",
+            }}
+          >
+            <ActivityIndicator size="large" color={colors.primary} />
+          </View>
+        ) : (
+          renderContent()
+        )}
       </SafeAreaView>
 
       <FloatingAction

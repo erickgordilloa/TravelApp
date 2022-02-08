@@ -7,15 +7,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { TripsAlbumsActions } from "@actions";
 
 const Trips = ({ navigation }) => {
-  const [tours] = useState(TourData);
   const { colors } = useTheme();
   const dispatch = useDispatch();
-  const [refreshing] = useState(false);
 
   const tripsAlbums = useSelector((state) => state.tripsAlbums);
   const { error, tripsAlbums: dataAlbums, loading } = tripsAlbums;
-
-  console.log("tripsAlbums", tripsAlbums);
+  console.log("tripsAlbums", dataAlbums);
 
   const getTripsAlbumData = () => {
     dispatch(TripsAlbumsActions.getTripsAlbum());
@@ -56,32 +53,22 @@ const Trips = ({ navigation }) => {
         }
         showsVerticalScrollIndicator={false}
         numColumns={2}
-        data={tours}
+        data={dataAlbums}
         key={"gird"}
         keyExtractor={(item, index) => item.id}
         renderItem={({ item, index }) => (
           <TourItem
             grid
-            image={item.image}
-            name={item.name}
-            location={item.location}
-            travelTime={item.travelTime}
-            startTime={item.startTime}
-            price={item.price}
-            rate={item.rate}
-            rateCount={item.rateCount}
-            numReviews={item.numReviews}
-            author={item.author}
-            services={item.services}
+            image={{ uri: item.cover }}
+            name={item.title}
             style={{
               marginBottom: 15,
               marginLeft: 15,
             }}
             onPress={() => {
-              navigation.navigate("AlbumDetail");
-            }}
-            onPressBookNow={() => {
-              navigation.navigate("PreviewBooking");
+              navigation.navigate("AlbumDetail", {
+                idTrip: item.idtrip,
+              });
             }}
           />
         )}

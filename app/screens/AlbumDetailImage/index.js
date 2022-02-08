@@ -1,41 +1,30 @@
 import React, { useState, useEffect } from "react";
-import {
-  View,
-  ScrollView,
-  Animated,
-  FlatList,
-  RefreshControl,
-  TouchableOpacity,
-} from "react-native";
+import { View, Animated, TouchableOpacity } from "react-native";
 import { BaseStyle, BaseColor, Images, useTheme } from "@config";
 import {
   Header,
   SafeAreaView,
   Icon,
   Text,
-  StarRating,
-  PostListItem,
-  HelpBlock,
   Button,
-  RoomType,
-  TourItem,
-  ProfileGroup,
   TextInput,
   Image,
 } from "@components";
 import * as Utils from "@utils";
-import { InteractionManager } from "react-native";
-import MapView, { PROVIDER_GOOGLE, Marker } from "react-native-maps";
 import styles from "./styles";
 import { TourData } from "@data";
-import { FloatingAction } from "react-native-floating-action";
 import { useTranslation } from "react-i18next";
 import ImagePicker from "react-native-image-crop-picker";
 
-export default function AlbumDetailImage({ navigation }) {
+export default function AlbumDetailImage({ navigation, route }) {
+  const { detailImage } = route.params;
+  console.log("detailImage", detailImage);
   const { colors } = useTheme();
   const { t } = useTranslation();
-  const [description, setDescription] = useState("");
+  const [image, setImage] = useState({ uri: detailImage?.file } || {});
+  const [description, setDescription] = useState(
+    detailImage?.descripcion || ""
+  );
   const [heightHeader, setHeightHeader] = useState(Utils.heightHeader());
   const [tours] = useState(TourData);
   const [refreshing] = useState(false);
@@ -69,9 +58,12 @@ export default function AlbumDetailImage({ navigation }) {
 
   const openCameraEditCover = () => {
     ImagePicker.openPicker({
-      multiple: true,
+      multiple: false,
+      includeBase64: true,
     }).then((images) => {
       console.log(images);
+      const img = { uri: "data:image/jpeg;base64," + images.data };
+      setImage(img);
     });
   };
 
@@ -99,7 +91,7 @@ export default function AlbumDetailImage({ navigation }) {
         edges={["right", "left", "bottom"]}
       >
         <View>
-          <Image source={Images.avata1} style={styles.cover} />
+          <Image source={image} style={styles.cover} />
           <TouchableOpacity
             onPress={openCameraEditCover}
             style={[

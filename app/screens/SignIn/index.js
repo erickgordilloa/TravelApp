@@ -29,15 +29,16 @@ export default function SignIn({ navigation }) {
     android: 20,
   });
 
-  //const [id, setId] = useState("");
   const [email, setEmail] = useState("stefano@gmail.com");
   const [password, setPassword] = useState("12345678");
   const [visible, setVisible] = useState(true);
-  //const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState({ email: true, password: true });
 
   const auth = useSelector((state) => state.auth);
-  const { error, userInfo, loading, login } = auth;
+  const { login } = auth;
+
+  const ui = useSelector((state) => state.ui);
+  const { error, loading } = ui;
 
   useEffect(() => {
     if (error.length === 0) return;

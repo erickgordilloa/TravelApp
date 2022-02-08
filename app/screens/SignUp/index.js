@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   KeyboardAvoidingView,
   Platform,
   TouchableOpacity,
+  Alert,
 } from "react-native";
 import { BaseStyle, useTheme } from "@config";
 import {
@@ -28,13 +29,12 @@ export default function SignUp({ navigation }) {
     android: 20,
   });
 
-  const [name, setName] = useState("Erick");
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("123");
-  const [passwordConfirm, setPasswordConfirm] = useState("123");
+  const [password, setPassword] = useState("");
+  const [passwordConfirm, setPasswordConfirm] = useState("");
   const [visible, setVisible] = useState(true);
   const [visiblePassword, setVisiblePassword] = useState(true);
-  const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState({
     name: true,
     email: true,
@@ -42,10 +42,30 @@ export default function SignUp({ navigation }) {
     passwordConfirm: true,
   });
 
-  /**
-   * call when action signup
-   *
-   */
+  const register = useSelector((state) => state.register);
+  const { login } = register;
+
+  const ui = useSelector((state) => state.ui);
+  const { error, loading } = ui;
+
+  useEffect(() => {
+    if (error.length === 0) return;
+
+    Alert.alert("Login incorrecto", error, [
+      {
+        text: "Ok",
+        onPress: () => dispatch(AuthActions.onRemoveError()),
+      },
+    ]);
+  }, [error]);
+
+  useEffect(() => {
+    console.log("info", login);
+    if (login) {
+      return navigation.goBack();
+    }
+  }, [login]);
+
   const onSignUp = () => {
     if (name == "" || email == "" || password == "") {
       setSuccess({
@@ -56,17 +76,7 @@ export default function SignUp({ navigation }) {
         passwordConfirm: passwordConfirm != "" ? true : false,
       });
     } else {
-      setLoading(true);
-      /* setTimeout(() => {
-        setLoading(false);
-        navigation.navigate("SignIn");
-      }, 500); */
-      dispatch(
-        AuthActions.register(name, email, password, (response) => {
-          setLoading(false);
-          navigation.goBack();
-        })
-      );
+      dispatch(AuthActions.register(name, email, password));
     }
   };
 

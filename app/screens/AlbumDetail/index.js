@@ -1,39 +1,45 @@
 import React, { useState, useEffect } from "react";
 import {
   View,
-  ScrollView,
+  Alert,
   Animated,
   FlatList,
   RefreshControl,
   TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
 import { BaseColor, Images, useTheme } from "@config";
 import {
-  Header,
   SafeAreaView,
   Icon,
   Text,
-  StarRating,
-  PostListItem,
-  HelpBlock,
-  Button,
-  RoomType,
   TourItem,
   ProfileGroup,
   Tag,
 } from "@components";
+import { useDispatch, useSelector } from "react-redux";
+import { TripsAlbumsActions } from "@actions";
 import * as Utils from "@utils";
-import { InteractionManager } from "react-native";
-import MapView, { PROVIDER_GOOGLE, Marker } from "react-native-maps";
 import styles from "./styles";
 import { TourData } from "@data";
 import { FloatingAction } from "react-native-floating-action";
 import { useTranslation } from "react-i18next";
 import ImagePicker from "react-native-image-crop-picker";
 
-export default function AlbumDetail({ navigation }) {
+export default function AlbumDetail({ navigation, route }) {
+  const { idTrip } = route.params;
   const { colors } = useTheme();
   const { t } = useTranslation();
+
+  const dispatch = useDispatch();
+
+  const tripsAlbumsId = useSelector((state) => state.tripsAlbumsId);
+  const { error, infoTripsAlbums, loading } = tripsAlbumsId;
+  console.log("infoTripsAlbums", tripsAlbumsId);
+
+  const tripFilesList = useSelector((state) => state.tripFilesList);
+  const { error: errorFiles, tripFiles, loading: loadingFiles } = tripFilesList;
+  console.log("infoTripsAlbums", tripFilesList);
 
   const [heightHeader, setHeightHeader] = useState(Utils.heightHeader());
   const [tours] = useState(TourData);
@@ -81,122 +87,156 @@ export default function AlbumDetail({ navigation }) {
     });
   };
 
-  return (
-    <View>
-      <FlatList
-        refreshControl={
-          <RefreshControl
-            colors={[colors.primary]}
-            tintColor={colors.primary}
-            refreshing={refreshing}
-            onRefresh={() => {}}
-          />
-        }
-        ListHeaderComponent={
-          <>
-            <View>
-              <Animated.Image
-                source={Images.trip1}
-                style={[
-                  styles.imgBanner,
-                  {
-                    height: deltaY.interpolate({
-                      inputRange: [
-                        0,
-                        Utils.scaleWithPixel(200),
-                        Utils.scaleWithPixel(200),
-                      ],
-                      outputRange: [
-                        heightImageBanner,
-                        heightHeader,
-                        heightHeader,
-                      ],
-                    }),
-                  },
-                ]}
-              />
-              <TouchableOpacity
-                onPress={() => navigation.goBack()}
-                style={styles.closeButtom}
-              >
-                <Icon name="times" size={20} color={"white"} enableRTL={true} />
-              </TouchableOpacity>
-            </View>
+  useEffect(() => {
+    dispatch(TripsAlbumsActions.getTripsAlbumId(idTrip));
+    dispatch(TripsAlbumsActions.getTripsAlbumFiles(idTrip));
+  }, [dispatch]);
 
-            <SafeAreaView
-              edges={["right", "left"]}
-              style={{ flex: 1, position: "relative" }}
-            >
-              <View style={{ margin: 20 }}>
-                <View
-                  style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                  }}
-                >
-                  <View>
-                    <Text title1 bold style={{ marginBottom: 3 }}>
-                      SayChelees
-                    </Text>
-                    <Tag outline round style={{ height: 30 }}>
-                      14 Feb - 28 Feb
-                    </Tag>
-                  </View>
-                </View>
-                <ProfileGroup
-                  onPress={() => console.log(12)}
-                  onPressLove={() => console.log("love")}
-                  name="Steve, Lincoln, Harry"
-                  detail={`15 people_like_this`}
-                  users={[
-                    { image: Images.profile1 },
-                    { image: Images.profile3 },
-                    { image: Images.profile4 },
+  const showModalDelete = () => {
+    Alert.alert(
+      "Do you really want to delete this trip?",
+      "All added photos and info will be delete too",
+      [
+        {
+          text: "Delete",
+          style: "destructive",
+          onPress: () => console.log("OK Pressed"),
+        },
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel",
+        },
+      ]
+    );
+  };
+
+  return (
+    <>
+      {loading ? (
+        <View
+          style={{
+            flex: 1,
+            justifyContent: "center",
+          }}
+        >
+          <ActivityIndicator size="large" color={colors.primary} />
+        </View>
+      ) : (
+        <FlatList
+          refreshControl={
+            <RefreshControl
+              colors={[colors.primary]}
+              tintColor={colors.primary}
+              refreshing={refreshing}
+              onRefresh={() => {}}
+            />
+          }
+          ListHeaderComponent={
+            <>
+              <View>
+                <Animated.Image
+                  source={{ uri: infoTripsAlbums?.cover }}
+                  style={[
+                    styles.imgBanner,
+                    {
+                      height: deltaY.interpolate({
+                        inputRange: [
+                          0,
+                          Utils.scaleWithPixel(200),
+                          Utils.scaleWithPixel(200),
+                        ],
+                        outputRange: [
+                          heightImageBanner,
+                          heightHeader,
+                          heightHeader,
+                        ],
+                      }),
+                    },
                   ]}
                 />
+                <TouchableOpacity
+                  onPress={() => navigation.goBack()}
+                  style={styles.closeButtom}
+                >
+                  <Icon
+                    name="times"
+                    size={20}
+                    color={"white"}
+                    enableRTL={true}
+                  />
+                </TouchableOpacity>
               </View>
 
-              <Text
+              <SafeAreaView
+                edges={["right", "left"]}
+                style={{ flex: 1, position: "relative" }}
+              >
+                <View style={{ margin: 20 }}>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      alignItems: "center",
+                    }}
+                  >
+                    <View>
+                      <Text title1 bold style={{ marginBottom: 3 }}>
+                        {infoTripsAlbums?.title}
+                      </Text>
+                      <Tag outline round style={{ height: 30 }}>
+                        {infoTripsAlbums?.date_star} -{" "}
+                        {infoTripsAlbums?.date_end}
+                      </Tag>
+                    </View>
+                  </View>
+                  <ProfileGroup
+                    onPress={() => console.log(12)}
+                    onPressLove={() => console.log("love")}
+                    name="Steve, Lincoln, Harry"
+                    detail={`15 people_like_this`}
+                    users={[
+                      { image: Images.profile1 },
+                      { image: Images.profile3 },
+                      { image: Images.profile4 },
+                    ]}
+                  />
+                </View>
+
+                {/* <Text
                 body2
                 style={{ marginLeft: 20, marginRight: 20, marginBottom: 15 }}
               >
                 218 Austen Mountain, consectetur adipiscing, sed eiusmod tempor
                 incididunt ut labore et dolore
-              </Text>
+              </Text> */}
 
-              <FlatList
-                style={{ marginRight: 20, marginLeft: 5 }}
-                showsVerticalScrollIndicator={false}
-                numColumns={2}
-                data={tours}
-                key={"gird"}
-                keyExtractor={(item, index) => item.id}
-                renderItem={({ item, index }) => (
-                  <TourItem
-                    grid
-                    tagLocation={true}
-                    image={item.image}
-                    name={item.name}
-                    location={item.location}
-                    travelTime={item.travelTime}
-                    startTime={item.startTime}
-                    price={item.price}
-                    rate={item.rate}
-                    rateCount={item.rateCount}
-                    numReviews={item.numReviews}
-                    author={item.author}
-                    services={item.services}
-                    style={{ marginBottom: 15, marginLeft: 15 }}
-                    onPress={() => {
-                      navigation.navigate("AlbumDetailImage");
-                    }}
-                  />
-                )}
-              />
-            </SafeAreaView>
-          </>
-        }
-      />
+                <FlatList
+                  style={{ marginRight: 20, marginLeft: 5 }}
+                  showsVerticalScrollIndicator={false}
+                  numColumns={2}
+                  data={tripFiles}
+                  key={"gird"}
+                  keyExtractor={(item, index) => item.id}
+                  renderItem={({ item, index }) => (
+                    <TourItem
+                      grid
+                      tagLocation={true}
+                      image={{ uri: item.file }}
+                      name={item.descripcion}
+                      style={{ marginBottom: 15, marginLeft: 15 }}
+                      onPress={() => {
+                        navigation.navigate("AlbumDetailImage", {
+                          detailImage: item,
+                        });
+                      }}
+                    />
+                  )}
+                />
+              </SafeAreaView>
+            </>
+          }
+        />
+      )}
 
       <FloatingAction
         actions={actions}
@@ -208,9 +248,11 @@ export default function AlbumDetail({ navigation }) {
             navigation.navigate("AlbumEdit", {
               album: {},
             });
+          } else if (name === "trash") {
+            showModalDelete();
           }
         }}
       />
-    </View>
+    </>
   );
 }
