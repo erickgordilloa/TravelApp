@@ -81,7 +81,7 @@ export default function AlbumDetail({ navigation, route }) {
 
   const openCameraEditCover = () => {
     ImagePicker.openPicker({
-      multiple: true,
+      multiple: false,
     }).then((images) => {
       console.log(images);
     });
@@ -168,6 +168,17 @@ export default function AlbumDetail({ navigation, route }) {
                     name="times"
                     size={20}
                     color={"white"}
+                    enableRTL={true}
+                  />
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => openCameraEditCover()}
+                  style={styles.cameraButtom}
+                >
+                  <Icon
+                    name="camera"
+                    size={20}
+                    color={colors.primary}
                     enableRTL={true}
                   />
                 </TouchableOpacity>

@@ -25,6 +25,12 @@ export const onRemoveErrorCreateTrip = () => {
   };
 };
 
+export const onGoBackCreateTrip = () => {
+  return {
+    type: actionTypes.TRIPS_ALBUM_CREATE_GOBACK,
+  };
+};
+
 export const getTripsAlbum = () => async (dispatch, getState) => {
   try {
     dispatch({

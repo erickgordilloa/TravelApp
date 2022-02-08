@@ -145,6 +145,7 @@ const initialStateTripCreate = {
   loading: false,
   error: "",
   createtripAlbum: null,
+  reset: false,
 };
 
 export const tripAlbumCreateReducer = (
@@ -171,6 +172,11 @@ export const tripAlbumCreateReducer = (
     case actionTypes.TRIPS_ALBUM_CREATE_RESET:
       return {
         ...initialStateTripCreate,
+      };
+    case actionTypes.TRIPS_ALBUM_CREATE_GOBACK:
+      return {
+        ...initialStateTripCreate,
+        reset: true,
       };
     default:
       return state;

@@ -23,6 +23,17 @@ export default StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  cameraButtom: {
+    position: "absolute",
+    top: Utils.scaleWithPixel(35),
+    right: Utils.scaleWithPixel(20),
+    backgroundColor: BaseColor.whiteColor,
+    width: Utils.scaleWithPixel(25),
+    height: Utils.scaleWithPixel(25),
+    borderRadius: Utils.scaleWithPixel(25) / 2,
+    justifyContent: "center",
+    alignItems: "center",
+  },
   contentService: {
     paddingVertical: 10,
     borderBottomWidth: 0.5,

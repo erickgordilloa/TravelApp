@@ -34,6 +34,7 @@ export default function AlbumCreate({ navigation }) {
     ios: 0,
     android: 20,
   });
+  //dispatch(TripsAlbumsActions.onRemoveErrorCreateTrip());
 
   const [nameTrip, setNameTrip] = useState();
   const [option, setOption] = useState("Public");
@@ -58,7 +59,7 @@ export default function AlbumCreate({ navigation }) {
   };
 
   const tripAlbumCreate = useSelector((state) => state.tripAlbumCreate);
-  const { error, createtripAlbum, loading } = tripAlbumCreate;
+  const { error, reset, createtripAlbum, loading } = tripAlbumCreate;
   console.log("tripAlbumCreate", tripAlbumCreate);
 
   useEffect(() => {
@@ -66,15 +67,30 @@ export default function AlbumCreate({ navigation }) {
       Alert.alert("Exito", "Create trips success", [
         {
           text: "Ok",
-          onPress: () => {
-            dispatch(TripsAlbumsActions.onRemoveErrorCreateTrip());
-            dispatch(TripsAlbumsActions.getTripsAlbum());
-            navigation.goBack();
-          },
+          onPress: () => dispatch(TripsAlbumsActions.onGoBackCreateTrip()),
         },
       ]);
     }
-  }, [dispatch]);
+  }, [createtripAlbum]);
+
+  useEffect(() => {
+    if (reset) {
+      dispatch(TripsAlbumsActions.onRemoveErrorCreateTrip());
+      dispatch(TripsAlbumsActions.getTripsAlbum());
+      navigation.goBack();
+    }
+  }, [reset]);
+
+  useEffect(() => {
+    if (error.length === 0) return;
+
+    Alert.alert("Create Album", error, [
+      {
+        text: "Ok",
+        onPress: () => dispatch(TripsAlbumsActions.onRemoveErrorCreateTrip()),
+      },
+    ]);
+  }, [error]);
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
