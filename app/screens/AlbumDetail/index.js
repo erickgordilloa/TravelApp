@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { baseUrl } from "../../api/mainApi";
 import {
   View,
   Alert,
@@ -35,15 +36,20 @@ export default function AlbumDetail({ navigation, route }) {
 
   const tripsAlbumsId = useSelector((state) => state.tripsAlbumsId);
   const { error, infoTripsAlbums, loading } = tripsAlbumsId;
-  console.log("infoTripsAlbums", tripsAlbumsId);
 
   const tripFilesList = useSelector((state) => state.tripFilesList);
   const { error: errorFiles, tripFiles, loading: loadingFiles } = tripFilesList;
-  console.log("infoTripsAlbums", tripFilesList);
+
+  console.log("tripFiles", tripFiles);
+
+  const auth = useSelector((state) => state.auth);
+  const { token } = auth;
 
   const [heightHeader, setHeightHeader] = useState(Utils.heightHeader());
   const [tours] = useState(TourData);
   const [refreshing] = useState(false);
+  const [load, setLoad] = useState(false);
+  const [loadCover, setLoadCover] = useState(false);
   const deltaY = new Animated.Value(0);
 
   const heightImageBanner = Utils.scaleWithPixel(250, 1);
@@ -76,15 +82,97 @@ export default function AlbumDetail({ navigation, route }) {
       multiple: true,
     }).then((images) => {
       console.log(images);
+      handleSubmitPhoto(images);
     });
+  };
+
+  const handleSubmitPhoto = async (images) => {
+    setLoad(true);
+    var myHeaders = new Headers();
+    myHeaders.append("Authorization", `Bearer ${token}`);
+    var formdata = new FormData();
+    formdata.append("idtrip", idTrip);
+    images.forEach((element) => {
+      formdata.append("files-trip[]", {
+        uri: element.path,
+        name: element.filename,
+        type: element.mime,
+      });
+    });
+    console.log("formdata", formdata);
+    var requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: formdata,
+      redirect: "follow",
+    };
+
+    fetch(`${baseUrl}/TripUploadFiles`, requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        setLoad(false);
+        console.log("result", result);
+        Alert.alert("Info", result.info.msg, [
+          {
+            text: "Ok",
+            onPress: () =>
+              dispatch(TripsAlbumsActions.getTripsAlbumFiles(idTrip)),
+          },
+        ]);
+      })
+      .catch((error) => {
+        console.log(error);
+        setLoad(false);
+      });
+  };
+
+  const setCoverImage = async (images) => {
+    setLoadCover(true);
+    var myHeaders = new Headers();
+    myHeaders.append("Authorization", `Bearer ${token}`);
+    var formdata = new FormData();
+    formdata.append("idtrip", idTrip);
+    formdata.append("cover-trip", {
+      uri: images.path,
+      name: images.filename,
+      type: images.mime,
+    });
+    console.log("formdata", formdata);
+    var requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: formdata,
+      redirect: "follow",
+    };
+
+    fetch(`${baseUrl}/TripSetCoverImage`, requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        setLoadCover(false);
+        console.log("result", result);
+        Alert.alert("Info", result.info.msg, [
+          {
+            text: "Ok",
+            onPress: () => dispatch(TripsAlbumsActions.getTripsAlbumId(idTrip)),
+          },
+        ]);
+      })
+      .catch((error) => {
+        console.log(error);
+        setLoadCover(false);
+      });
   };
 
   const openCameraEditCover = () => {
     ImagePicker.openPicker({
       multiple: false,
-    }).then((images) => {
-      console.log(images);
-    });
+    })
+      .then((images) => {
+        setCoverImage(images);
+      })
+      .catch((error) => {
+        console.log("errorimage", error);
+      });
   };
 
   const loadInfo = () => {
@@ -225,7 +313,11 @@ export default function AlbumDetail({ navigation, route }) {
                 218 Austen Mountain, consectetur adipiscing, sed eiusmod tempor
                 incididunt ut labore et dolore
               </Text> */}
-
+                {load && (
+                  <>
+                    <ActivityIndicator size="large" color={colors.primary} />
+                  </>
+                )}
                 {loadingFiles ? (
                   <View
                     style={{
@@ -243,7 +335,7 @@ export default function AlbumDetail({ navigation, route }) {
                       numColumns={2}
                       data={tripFiles}
                       key={"gird"}
-                      keyExtractor={(item, index) => item.id}
+                      keyExtractor={(item, index) => item.idfile}
                       renderItem={({ item, index }) => (
                         <TourItem
                           grid

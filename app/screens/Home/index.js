@@ -113,7 +113,7 @@ export default function Home({ navigation }) {
           numColumns={2}
           data={listHome}
           key={"gird"}
-          keyExtractor={(item, index) => item.id}
+          keyExtractor={(item, index) => item.idtrip}
           renderItem={({ item, index }) => (
             <TourItem
               grid

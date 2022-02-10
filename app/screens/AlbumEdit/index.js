@@ -103,15 +103,10 @@ export default function AlbumEdit({ navigation, route }) {
   };
 
   const handleSubmitEdit = async () => {
-    // e.preventDefault();
-
     setLoading(true);
 
     var myHeaders = new Headers();
-    myHeaders.append(
-      "Authorization",
-      "Bearer 31|2Ae7IwMDX0VZatZY5bSETvnGyOzze2vykRCyAjK5"
-    );
+    myHeaders.append("Authorization", `Bearer ${token}`);
 
     var formdata = new FormData();
     formdata.append("name_trip", nameTrip);
@@ -133,7 +128,7 @@ export default function AlbumEdit({ navigation, route }) {
       redirect: "follow",
     };
 
-    fetch("https://aldebaram.com/lindygo/public/api/TripUpdate", requestOptions)
+    fetch(`${baseUrl}/TripUpdate`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         setLoading(false);
