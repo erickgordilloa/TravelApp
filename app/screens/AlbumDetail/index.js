@@ -275,7 +275,7 @@ export default function AlbumDetail({ navigation, route }) {
             openCameraSelectImages();
           } else if (name === "edit") {
             navigation.navigate("AlbumEdit", {
-              album: {},
+              album: infoTripsAlbums,
             });
           } else if (name === "trash") {
             showModalDelete();
