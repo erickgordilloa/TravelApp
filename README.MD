@@ -1,15 +1,11 @@
-1. Document
+- npm install
 
-- http://passionui.com/docs/felix-travel
+- cd ios/
 
-2. Support Issue
+- pod install
 
-- https://github.com/passionui/support/issues
+- cd ..
 
-3. Facebook
+- npx react-native run-ios
 
-- https://www.facebook.com/passionui/
 
-4. Youtube
-
-- https://www.youtube.com/channel/UCt_7rXE3zgj_a_UbGCFUz6Q
